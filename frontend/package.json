@@ -1,0 +1,72 @@
+{
+  "name": "my_meals-frontend",
+  "version": "1.0.0",
+  "description": "My_Meal Project",
+  "author": "Tyler Hayden ",
+  "license": "UNLICENSED",
+  "repository": "https://github.com/tkHayden/My_Meals",
+  "proxy": "http://localhost:3010",
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.6.1",
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@testing-library/user-event": "*",
+    "eslint-config-google": "*",
+    "eslint-plugin-react": "*",
+    "eslint-plugin-react-hooks": "*",
+    "msw": "*",
+    "puppeteer": "*",
+    "puppeteer-core": "*",
+    "react-scripts": "*"
+  },
+  "scripts": {
+    "build": "react-scripts build",
+    "start": "react-scripts start",
+    "test": "react-scripts test --coverage",
+    "lint": "eslint ./src/**/*.js"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/index.js"
+    ],
+    "testMatch": [
+      "**/?(*.)+(spec|test).[jt]s?(x)"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "google"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 12
+    },
+    "rules": {
+      "require-jsdoc": "off",
+      "no-unused-vars": "warn",
+      "prefer-rest-params": "warn",
+      "indent": "warn",
+      "max-len": "warn",
+      "linebreak-style": "warn"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
