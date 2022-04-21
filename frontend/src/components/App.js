@@ -2,6 +2,7 @@ import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Home from './Home';
+import Recipes from './Recipes';
 
 const xtheme = createTheme({
   palette: {
@@ -28,6 +29,7 @@ const App = () => {
     <ThemeProvider theme={xtheme}>
       <Routes>
         <Route path="/" element={<Home />}/>
+        <Route path="/recipes" element={<Recipes />} />
       </Routes>
     </ThemeProvider>
 

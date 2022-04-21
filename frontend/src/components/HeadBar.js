@@ -6,10 +6,13 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import {useAuth0} from '@auth0/auth0-react';
 
 const HeaderBar = () => {
+  const {isAuthenticated, isLoading, logout, loginWithRedirect} = useAuth0();
+
   return (
-    <Box sx={{flexGrow: 1}}>
+    <Box sx={{flexGrow: 1, mb: 10}}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -24,7 +27,21 @@ const HeaderBar = () => {
           <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
             News
           </Typography>
-          <Button color="inherit">Login</Button>
+          {isAuthenticated || isLoading ?
+           <Button
+             variant="contained"
+             color='secondary'
+             size='small'
+             onClick={() => logout({returnTo: window.location.origin})}>
+               Logout
+           </Button> :
+            <Button
+              variant="contained"
+              color='secondary'
+              size='small'
+              onClick={() => loginWithRedirect()}>
+                Login
+            </Button>}
         </Toolbar>
       </AppBar>
     </Box>

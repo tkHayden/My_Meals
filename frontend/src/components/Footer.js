@@ -4,8 +4,10 @@ import Grid from '@mui/material/Grid';
 import {Typography} from '@mui/material';
 import Link from '@mui/material/Link';
 import {LinkBox} from './Footer.style.js';
+import {useNavigate} from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Box sx={{flexGrow: 1,
@@ -40,7 +42,9 @@ const Footer = () => {
             <LinkBox>
               <Link variant='subtitle2'
                 sx={{textAlign: 'center', color: 'white'}}
-                underline="hover">
+                underline="hover"
+                onClick = {() => navigate('/recipes')}>
+
                 All Recipes
               </Link>
             </LinkBox>

@@ -12,8 +12,12 @@ import {CardActionArea} from '@mui/material';
 import {mainText, cardGrid, cardPic} from './Home.style.js';
 import Button from '@mui/material/Button';
 import HeaderBar from './HeadBar';
+import Footer from './Footer';
+import {useNavigate} from 'react-router-dom';
+
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <>
       <HeaderBar/>
@@ -39,7 +43,8 @@ const Home = () => {
               Search For Delicious Recipes and More!
             </Typography>
             <Button variant="contained" size="large" color= 'primary'
-              sx={{width: 200, fontFamily: ('Roboto'), mt: 3}}>
+              sx={{width: 200, fontFamily: ('Roboto'), mt: 3}}
+              onClick ={() => navigate('/recipes')}>
               Search Recipes
             </Button>
           </Grid>
@@ -93,7 +98,10 @@ const Home = () => {
           </Grid>
 
         </Grid>
+        <Typography>
+        </Typography>
       </Box>
+      <Footer/>
     </>
   );
 };
