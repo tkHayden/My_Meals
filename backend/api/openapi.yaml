@@ -1,0 +1,68 @@
+openapi: '3.0.3'
+
+info:
+  description: RecipePrep Backend
+  version: 0.1.0
+  title: RecipePrep Backend
+
+servers:
+  - url: http://localhost:3010/v0
+
+paths:
+  /recipes:
+    get:
+      description: Get matching recipes by keywords
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: moreResults
+          schema:
+            type: string
+      responses:
+        200:
+          description: Recipes that match the key words
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipes'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      
+
+
+
+components:
+  schemas:
+    Error:
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+      required:
+        - code
+        - message
+
+    Recipes:
+      type: object
+      properties:
+        more_results:
+          type: string
+        recipes:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+              img_url:
+                type: string
