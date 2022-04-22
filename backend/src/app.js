@@ -6,6 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 const path = require('path');
 const OpenApiValidator = require('express-openapi-validator');
+const recipes = require('./recipes');
 
 
 const app = express();
@@ -26,6 +27,8 @@ app.use(
   }),
 );
 
+app.get('/v0/recipes', recipes.searchRecipes);
+app.get('/v0/featured_recipes', recipes.getFeaturedRecipes);
 
 app.use((err, req, res, next) => {
   res.status(err.status).json({
