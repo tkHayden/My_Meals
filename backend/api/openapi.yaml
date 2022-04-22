@@ -19,12 +19,28 @@ paths:
             type: string
           required: true
         - in: query
-          name: moreResults
+          name: offset
           schema:
-            type: string
+            type: integer
       responses:
         200:
           description: Recipes that match the key words
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipes'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /featured_recipes:
+    get:
+      description: Get currently featured recipes 
+      responses:
+        200:
+          description: Featured Recipes
           content:
             application/json:
               schema:
@@ -53,16 +69,23 @@ components:
         - message
 
     Recipes:
-      type: object
-      properties:
-        more_results:
-          type: string
-        recipes:
-          type: array
-          items:
-            type: object
-            properties:
-              label:
-                type: string
-              img_url:
-                type: string
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          title:
+            type: string
+          calories:
+            type: integer
+          carbs:
+            type: string
+          fat:
+            type: string
+          image:
+            type: string
+          imageType:
+            type: string
+          protein:
+            type: string
