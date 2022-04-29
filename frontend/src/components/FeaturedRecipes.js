@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import RecipeList from './RecipeList';
+import CircularProgress from '@mui/material/CircularProgress';
 
-// Dev import
-import recipes from '../devData.json';
 
 const FeaturedRecipes = () => {
   const [featureRecipes, setFeatureRecipes] = useState(null);
@@ -13,8 +12,10 @@ const FeaturedRecipes = () => {
   }, []);
   return (
     <>
-      {featureRecipes ? <RecipeList recipes={featureRecipes} header={'Featured'}/> :
-    null}
+      {featureRecipes ?
+       <RecipeList recipes={featureRecipes} header={'Featured'}/> :
+       <CircularProgress />
+      }
     </>
   );
 };

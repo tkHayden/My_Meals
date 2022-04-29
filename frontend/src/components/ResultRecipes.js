@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import RecipeList from './RecipeList';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ResultRecipes = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,8 +26,9 @@ const ResultRecipes = () => {
   }, [searchParams]);
   return (
     <>
-      {resultRecipes ? <RecipeList recipes={resultRecipes} header={'Results'}/> :
-  null}
+      {resultRecipes ?
+       <RecipeList recipes={resultRecipes} header={'Results'}/> :
+       <CircularProgress />}
     </>
   );
 };

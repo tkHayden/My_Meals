@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import {Outlet} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
+import {keyframes} from '@mui/system';
 
 
 const Recipes = () => {
@@ -21,6 +22,14 @@ const Recipes = () => {
       search: `?search=${searchValue}`,
     });
   };
+  const spin = keyframes`
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+`;
   return (
     <Box sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
       <HeaderBar />
@@ -28,14 +37,16 @@ const Recipes = () => {
         display: 'flex',
         justifyContent: 'center',
         flexDirection: 'column',
-        alignItems: 'center'}}>
-        <Typography variant='h2' sx={{...mainText, maxWidth: 700}}>
-        Search through the diverse collection of recipes!
+        alignItems: 'center',
+        animation: `${spin}`}}>
+        <Typography variant='h2'
+          sx={{...mainText, maxWidth: 700, animation: `${spin} 1s ease`}}>
+        Search through a diverse collection of recipes!
         </Typography>
         <Paper
           component="form"
           sx={{p: '2px 4px', display: 'flex',
-            alignContent: 'center', width: 300}}
+            alignContent: 'center', width: 300, mb: 10}}
         >
           <InputBase
             sx={{ml: 1, flex: 1}}
