@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import HeaderBar from './HeadBar';
-import Footer from './Footer';
+import HeaderBar from '../HeadBar';
+import Footer from '../Footer';
 import {Box, Typography} from '@mui/material';
-import {mainText} from './Home.style';
+import {mainText} from '../Home.style';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
