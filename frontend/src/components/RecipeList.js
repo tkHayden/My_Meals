@@ -23,21 +23,19 @@ const RecipeList = (props) => {
             <Grid item xs={12} sm={6} md={4} lg={3} key={i.title}>
               <Card
                 sx={{'maxWidth': '90%',
-                  'height': {xs: 320, sm: 320, md: 350, lg: 350}, 'm': 2, ':hover': {boxShadow: 20}}}>
+                  'backgroundColor': '#FAFAFA',
+                  'height': {xs: 280, sm: 290, md: 300, lg: 310}, 'm': 2, ':hover': {boxShadow: 20}}}>
                 <CardMedia
                   component="img"
                   height='200'
                   image= {i.image}
                   alt="green iguana"
                 />
-                <CardContent>
+                <Divider/>
+                <CardContent >
                   <Typography variant="h6" component="div"
                     sx={{textAlign: 'center', fontSize: {xs: 16, sm: 17, md: 18, lg: 20}}}>
-                    {i.title}
-                  </Typography>
-                  <Typography variant="caption text" component="div"
-                    sx={{textAlign: 'center'}}>
-                      Calories: 30
+                    {i.title.length > 45 ? `${i.title.substring(0, 45)}...` : i.title }
                   </Typography>
 
                 </CardContent>
