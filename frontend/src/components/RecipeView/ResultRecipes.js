@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import RecipeList from './RecipeList';
 import CircularProgress from '@mui/material/CircularProgress';
-import {Button, Typography} from '@mui/material';
+import {Button} from '@mui/material';
 
 const ResultRecipes = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [resultRecipes, setResultRecipes] = useState();
   const [offsetSearch, setOffset] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     console.log(searchParams.get('search'));
@@ -25,9 +26,10 @@ const ResultRecipes = () => {
           console.log(data);
           setResultRecipes(data);
         });
-  }, []);
+  }, [searchParams]);
 
   const loadMore = () => {
+    setIsLoading(true);
     const offset = offsetSearch + 20;
     setOffset(offset );
     console.log(offset );
@@ -39,19 +41,27 @@ const ResultRecipes = () => {
         .then((data) => {
           console.log(data);
           setResultRecipes((currRecipes) => [...currRecipes, ...data]);
+          setIsLoading(false);
         });
+  };
+  const renderButton = (recipes, isLoading) => {
+    if (recipes && recipes.length > 0) {
+      return (
+        <Button variant="contained"
+          size="large"
+          color= 'primary'
+          onClick={() => loadMore()}>
+          {isLoading ? 'Loading...' : 'Load more results'}
+        </Button>
+      );
+    }
   };
   return (
     <>
       {resultRecipes ?
        <RecipeList recipes={resultRecipes} header={'Results'}/> :
        <CircularProgress />}
-      <Button variant="contained"
-        size="large"
-        color= 'primary'
-        onClick={() => loadMore()}>
-        Load More
-      </Button>
+      {renderButton(resultRecipes, isLoading)}
     </>
   );
 };
