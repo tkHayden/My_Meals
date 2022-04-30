@@ -9,7 +9,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import {CardActionArea} from '@mui/material';
-import {mainText, cardGrid, cardPic} from './Home.style.js';
+import {mainText, cardGrid, cardPic, searchBox} from './Home.style.js';
 import Button from '@mui/material/Button';
 import HeaderBar from './HeadBar';
 import Footer from './Footer';
@@ -33,17 +33,18 @@ const Home = () => {
               backgroundRepeat: 'no-repeat',
             }}>
           </Grid>
-          <Grid item xs={12} sm={6} sx={{
-            height: 200, display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center'}}>
+          <Grid item xs={12} sm={6} sx={{...searchBox}}>
             <Typography variant='h3'
               sx={{...mainText}}>
               Search For Delicious Recipes and More!
             </Typography>
+            <Typography variant='subtitle'
+              sx={{color: 'gray', maxWidth: 400, textAlign: 'center'}}>
+              Search for new recipes, create new grocery list
+              and customize your grocery list by adding your favorite recipes.
+            </Typography>
             <Button variant="contained" size="large" color= 'primary'
-              sx={{width: 200, fontFamily: ('Roboto'), mt: 3}}
+              sx={{width: 200, fontFamily: ('Roboto'), mt: 3, mb: 5}}
               onClick ={() => navigate('/recipes')}>
               Search Recipes
             </Button>
