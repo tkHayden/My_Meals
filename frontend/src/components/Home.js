@@ -9,7 +9,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import {CardActionArea} from '@mui/material';
-import {mainText, cardGrid, cardPic, searchBox} from './Home.style.js';
+import {mainText, cardGrid, cardPic,
+  searchBox, CenterTypography} from './Home.style.js';
 import Button from '@mui/material/Button';
 import HeaderBar from './HeadBar';
 import Footer from './Footer';
@@ -62,13 +63,15 @@ const Home = () => {
                   alt="green iguana"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-            Lizard
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-                  </Typography>
+                  <CenterTypography gutterBottom variant="h5"
+                    component="div">
+            Search for Recipes
+                  </CenterTypography>
+                  <CenterTypography variant="body2" color="text.secondary">
+             Search through a diverse selection of recipes. Type in
+             whatever your appetite desires and see what
+             delicious recipes are to be tried!
+                  </CenterTypography>
                 </CardContent>
               </CardActionArea>
             </Card>
@@ -86,13 +89,19 @@ const Home = () => {
                   alt="green iguana"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-            Lizard
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-                  </Typography>
+                  <CenterTypography gutterBottom
+                    variant="h5"
+                    component="div"
+                    sx={{textAlign: 'center'}}>
+                    Create Grocery Lists
+                  </CenterTypography >
+                  <CenterTypography variant="body2"
+                    color="text.secondary"
+                    sx={{textAlign: 'center'}}>
+                    As a user, you can create new grocery lists and customize
+                    your existing grocery lists. Add your favorite
+                    recipes that you have discovered to your grocery lists.
+                  </CenterTypography >
                 </CardContent>
               </CardActionArea>
             </Card>

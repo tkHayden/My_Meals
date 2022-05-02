@@ -1,3 +1,6 @@
+import {styled} from '@mui/system';
+import Typography from '@mui/material/Typography';
+
 export const mainText = {
   textAlign: 'center',
   p: 3,
@@ -30,8 +33,12 @@ export const searchBox = {
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  mt: 2,
+  mt: 5,
   ml: {
     lg: '-5%',
   },
 };
+
+export const CenterTypography = styled(Typography)({
+  textAlign: 'center',
+});
