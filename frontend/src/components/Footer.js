@@ -2,8 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import {Typography} from '@mui/material';
-import Link from '@mui/material/Link';
-import {LinkBox} from './Footer.style.js';
+import {LinkBox, FooterLink} from './Footer.style.js';
 import {useNavigate} from 'react-router-dom';
 
 const Footer = () => {
@@ -29,31 +28,34 @@ const Footer = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={5}>
-            <Typography variant='h6' sx={{textAlign: 'center', color: 'white'}}>
+            <Typography variant='h6'
+              component="div"
+              sx={{textAlign: 'center', color: 'white'}}>
                 My Meals
             </Typography>
             <LinkBox>
-              <Link variant='subtitle2'
+              <FooterLink variant='subtitle2'
                 sx={{textAlign: 'center', color: 'white'}}
-                underline="hover">
+                underline="hover"
+                onClick= {() => navigate('/')}>
                 Home
-              </Link>
+              </FooterLink>
             </LinkBox>
             <LinkBox>
-              <Link variant='subtitle2'
+              <FooterLink variant='subtitle2'
                 sx={{textAlign: 'center', color: 'white'}}
                 underline="hover"
                 onClick = {() => navigate('/recipes')}>
 
                 All Recipes
-              </Link>
+              </FooterLink>
             </LinkBox>
             <LinkBox>
-              <Link variant='subtitle2'
+              <FooterLink variant='subtitle2'
                 sx={{textAlign: 'center', color: 'white'}}
                 underline="hover">
                 My Grocery Lists
-              </Link>
+              </FooterLink>
             </LinkBox>
           </Grid>
         </Grid>
