@@ -15,10 +15,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-const mongoHost = process.env.MONGO_USER;
-const mongoPassword = process.env.MONGO_PASSWORD;
-
-const uri = `mongodb://${mongoHost}:${mongoPassword}@localhost:27017`;
+const MONGO_USERNAME = process.env.MONGO_USERNAME;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+const uri = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017`;
 const client = new MongoClient(uri);
 
 const run = async () => {
