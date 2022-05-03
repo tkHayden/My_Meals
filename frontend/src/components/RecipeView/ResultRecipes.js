@@ -9,6 +9,7 @@ const ResultRecipes = () => {
   const [resultRecipes, setResultRecipes] = useState();
   const [offsetSearch, setOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [remainingRecipes, setRemainingRecipes] = useState(0);
 
   useEffect(() => {
     console.log(searchParams.get('search'));
@@ -24,7 +25,8 @@ const ResultRecipes = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          setResultRecipes(data);
+          setRemainingRecipes(data.remaining);
+          setResultRecipes(data.results);
         });
   }, [searchParams]);
 
@@ -40,18 +42,21 @@ const ResultRecipes = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          setResultRecipes((currRecipes) => [...currRecipes, ...data]);
+          setResultRecipes((currRecipes) => [...currRecipes, ...data.results]);
+          setRemainingRecipes(data.remaining);
           setIsLoading(false);
         });
   };
-  const renderButton = (recipes, isLoading) => {
-    if (recipes && recipes.length > 0) {
+  const renderButton = (recipes, isLoading, remainingRecipes) => {
+    console.log(remainingRecipes);
+    if (recipes && remainingRecipes > 0) {
       return (
         <Button variant="contained"
           size="large"
           color= 'primary'
           onClick={() => loadMore()}>
-          {isLoading ? 'Loading...' : 'Load more results'}
+          {isLoading ? 'Loading...' :
+           `Load more results (${remainingRecipes} more)`}
         </Button>
       );
     }
@@ -61,7 +66,7 @@ const ResultRecipes = () => {
       {resultRecipes ?
        <RecipeList recipes={resultRecipes} header={'Results'}/> :
        <CircularProgress />}
-      {renderButton(resultRecipes, isLoading)}
+      {renderButton(resultRecipes, isLoading, remainingRecipes)}
     </>
   );
 };
