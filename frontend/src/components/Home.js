@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <>
       <HeaderBar/>
-      <Box sx={{flexGrow: 1, pt: 6}}>
+      <Box sx={{flexGrow: 1, pt: 10, pb: 15, mt: 0.2, backgroundColor: '#F1F7F8'}}>
         <Grid container spacing={{xs: 4, sm: 1}}>
           <Grid item xs={12} sm={5}
             sx={{

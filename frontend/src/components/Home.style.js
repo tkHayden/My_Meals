@@ -33,7 +33,7 @@ export const searchBox = {
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  mt: 5,
+  mt: 9,
   ml: {
     lg: '-5%',
   },

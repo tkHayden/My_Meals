@@ -10,7 +10,6 @@ const Footer = () => {
   return (
     <>
       <Box sx={{flexGrow: 1,
-        mt: 15,
         boxShadow: '-1px -1px 10px',
         background: 'linear-gradient( #7AB2B9, #E28657)'}}>
         <Grid container spacing={1} >

@@ -12,7 +12,7 @@ const HeaderBar = () => {
   const {isAuthenticated, isLoading, logout, loginWithRedirect} = useAuth0();
 
   return (
-    <Box sx={{flexGrow: 1, mb: 10}}>
+    <Box sx={{flexGrow: 1, boxShadow: '1px 2px 2px gray'}}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
