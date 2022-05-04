@@ -10,7 +10,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import {CardActionArea} from '@mui/material';
 import {mainText, cardGrid, cardPic,
-  searchBox, CenterTypography} from './Home.style.js';
+  searchBox, CenterTypography, HomeContainer} from './Home.style.js';
 import Button from '@mui/material/Button';
 import HeaderBar from './HeadBar';
 import Footer from './Footer';
@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <>
       <HeaderBar/>
-      <Box sx={{flexGrow: 1, pt: 10, pb: 15, mt: 0.2, backgroundColor: '#F1F7F8'}}>
+      <Box sx={{...HomeContainer}}>
         <Grid container spacing={{xs: 4, sm: 1}}>
           <Grid item xs={12} sm={5}
             sx={{

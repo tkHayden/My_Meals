@@ -42,3 +42,11 @@ export const searchBox = {
 export const CenterTypography = styled(Typography)({
   textAlign: 'center',
 });
+
+export const HomeContainer = {
+  flexGrow: 1,
+  pt: 10,
+  pb: 15,
+  mt: 0.2,
+  backgroundColor: '#F1F7F8',
+};

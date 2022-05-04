@@ -35,6 +35,7 @@ const Recipes = () => {
       <HeaderBar />
       <Box sx={{
         display: 'flex',
+        flexGrow: 1,
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',

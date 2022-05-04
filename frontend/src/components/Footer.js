@@ -9,7 +9,8 @@ const Footer = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Box sx={{flexGrow: 1,
+      <Box sx={{
+        mt: 8,
         boxShadow: '-1px -1px 10px',
         background: 'linear-gradient( #7AB2B9, #E28657)'}}>
         <Grid container spacing={1} >
