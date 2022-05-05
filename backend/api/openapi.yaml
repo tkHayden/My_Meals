@@ -51,6 +51,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /recipe/{id}:
+    get:
+      description: Get a recipe by its id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Spoonacular's recipe id
+      responses:
+        200:
+          description: Recipe by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       
 
 
@@ -97,4 +120,55 @@ components:
           type: integer
         results:
           $ref: '#/components/schemas/Recipes'
-
+  
+    Recipe:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        readyInMinutes:
+          type: integer
+        servings:
+          type: integer
+        image:
+          type: string
+        nutrients:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              amount:
+                type: number
+              unit:
+                type: string
+        ingredients:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              amount:
+                type: number
+              unit:
+                type: string
+              meta:
+                type: array
+                items:
+                  type: string
+        cuisines:
+          type: array
+          items: 
+            type: string
+        diets:
+          type: array
+          items: 
+            type: string
+        instructions:
+          type: array
+          items:
+            type: string
