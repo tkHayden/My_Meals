@@ -68,6 +68,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Recipe'
+        404:
+          description: No recipe found for that id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: Unexpected error
           content:
@@ -157,17 +163,11 @@ components:
               unit:
                 type: string
               meta:
-                type: array
-                items:
-                  type: string
+                type: string
         cuisines:
-          type: array
-          items: 
-            type: string
+          type: string
         diets:
-          type: array
-          items: 
-            type: string
+          type: string
         instructions:
           type: array
           items:
