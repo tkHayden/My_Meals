@@ -47,6 +47,7 @@ app.use(
 
 app.get('/v0/recipes', recipes.searchRecipes);
 app.get('/v0/featured_recipes', recipes.getFeaturedRecipes);
+app.get('/v0/recipe/:id', recipes.getRecipe);
 
 app.use((err, req, res, next) => {
   res.status(err.status).json({
