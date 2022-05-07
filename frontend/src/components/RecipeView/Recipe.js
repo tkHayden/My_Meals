@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import {Box, Grid, Typography,
-  List, ListItem, ListItemText} from '@mui/material';
+  ListItem, ListItemText} from '@mui/material';
 import HeaderBar from '../HeadBar';
 import Footer from '../Footer';
+import {GridItem, InfoList} from './Recipe.style';
+
+// development data
 import data from '../../devData.json';
 
 const Recipe = () => {
@@ -13,10 +16,13 @@ const Recipe = () => {
       <>
         {recipe.ingredients.map((ingredient) => {
           return (
-            <ListItem>
+            <ListItem
+              key={ingredient.name}
+              divider = {true}
+            >
+
               <ListItemText
-                primary= {ingredient.name}
-                secondary= {ingredient.amount}
+                primary= {`${ingredient.amount} ${ingredient.unit} of ${ingredient.name}`}
               />
             </ListItem>
           );
@@ -30,10 +36,18 @@ const Recipe = () => {
       <>
         {recipe.nutrients.map((nutrient) => {
           return (
-            <ListItem>
+            <ListItem
+              key={nutrient.name}
+              divider = {true}
+              secondaryAction={
+                <ListItemText
+                  primary= {`${nutrient.amount} ${nutrient.unit}`}
+                />
+
+              }
+            >
               <ListItemText
                 primary= {nutrient.name}
-                secondary= {nutrient.amount}
               />
             </ListItem>
           );
@@ -44,9 +58,9 @@ const Recipe = () => {
   return (
     <Box sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
       <HeaderBar />
-      <Box sx={{flexGrow: 1, pb: 5}}>
-        <Grid container>
-          <Grid item xs={12} sx={{display: 'flex', justifyContent: 'center'}}>
+      <Box sx={{flexGrow: 1, pb: 5, display: 'flex', justifyContent: 'center'}}>
+        <Grid container space={2} sx={{maxWidth: 1100}}>
+          <Grid item xs={12} sm={6} sx={{display: 'flex', justifyContent: 'center'}}>
             <Box
               component="img"
               sx={{
@@ -58,6 +72,9 @@ const Recipe = () => {
               alt="The house from the offer."
               src="https://spoonacular.com/recipeImages/800754-556x370.jpg"
             />
+          </Grid>
+          <Grid item xs={12} sm={6} sx={{display: 'flex', justifyContent: 'center'}}>
+
             <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
               <Typography>
                 {recipe.title}
@@ -67,38 +84,11 @@ const Recipe = () => {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={6} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <Typography>
-                Ingredients
-            </Typography>
-            <List
-              sx={{
-                'width': '100%',
-                'maxWidth': 360,
-                'bgcolor': 'background.paper',
-                'position': 'relative',
-                'overflow': 'auto',
-                'maxHeight': 200,
-                '& ul': {padding: 0},
-              }}
-            >
-              {renderIngredients()}
-            </List>
-          </Grid>
-          <Grid item xs={6} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
-            <Typography>
+          <GridItem item xs={12} sm={6} >
+            <Typography variant='h4'>
                 General Info
             </Typography>
-            <List
-              sx={{
-                'width': '100%',
-                'maxWidth': 360,
-                'bgcolor': 'background.paper',
-                'position': 'relative',
-                'overflow': 'auto',
-                'maxHeight': 200,
-
-              }}>
+            <InfoList >
               <ListItem>
                 <ListItemText
                   primary= {`Cuisine types: ${recipe.cuisines}`}
@@ -109,38 +99,40 @@ const Recipe = () => {
                   primary= {`Diet types: ${recipe.diets}`}
                 />
               </ListItem>
-            </List>
-          </Grid>
-          <Grid item xs={6} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
-            <Typography>
+              <ListItem>
+                <ListItemText
+                  primary= {`Total time: ${recipe.readyInMinutes} mins`}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary= {`Servings: ${recipe.servings}`}
+                />
+              </ListItem>
+
+            </InfoList>
+          </GridItem>
+          <GridItem item xs={12} sm={6} >
+            <Typography variant='h4'>
+                Ingredients
+            </Typography>
+            <InfoList>
+              {renderIngredients()}
+            </InfoList>
+          </GridItem>
+          <GridItem item xs={12} sm={6}>
+            <Typography variant='h4'>
                 Nutrients
             </Typography>
-            <List
-              sx={{
-                'width': '100%',
-                'maxWidth': 360,
-                'bgcolor': 'background.paper',
-                'position': 'relative',
-                'overflow': 'auto',
-                'maxHeight': 200,
-
-              }}>
+            <InfoList>
               {renderNutrients()}
-            </List>
-          </Grid>
-          <Grid item xs={6} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
-            <Typography>
-              instructions
+            </InfoList>
+          </GridItem>
+          <GridItem item xs={12} sm={6} >
+            <Typography variant='h4'>
+              Instructions
             </Typography>
-            <List
-              sx={{
-                'width': '100%',
-                'maxWidth': 360,
-                'bgcolor': 'background.paper',
-                'position': 'relative',
-                'overflow': 'auto',
-                '& ul': {padding: 0},
-              }}>
+            <InfoList>
               {recipe.instructions.map((i) => {
                 return (
                   <ListItem>
@@ -151,8 +143,8 @@ const Recipe = () => {
                   </ListItem>
                 );
               })}
-            </List>
-          </Grid>
+            </InfoList>
+          </GridItem>
         </Grid>
       </Box>
       <Footer />
