@@ -25,7 +25,7 @@ const RecipeList = (props) => {
               <Grid item xs={12} sm={6} md={4} lg={3} key={recipe.title}>
                 <Link
                   key={recipe.id}
-                  to={'/recipe'}
+                  to={`/recipe/${recipe.id}`}
                   state={{backgroundLocation: location}}
                   style={{textDecoration: 'none'}}
                 >
