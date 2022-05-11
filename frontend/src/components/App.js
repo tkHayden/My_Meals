@@ -49,14 +49,14 @@ const App = () => {
             <Route index element={<FeaturedRecipes/>}/>
             <Route path='results' element={<ResultRecipes/>}/>
           </Route>
-          <Route path='/recipe' element ={<Recipe/>} />
+          <Route path='/recipe/:id' element ={<Recipe/>} />
 
         </Routes>
       </Layout>
       {/* Show the modal when a `backgroundLocation` is set */}
       {state?.backgroundLocation && (
         <Routes>
-          <Route path="/recipe" element={<RecipeModal/>} />
+          <Route path="/recipe/:id" element={<RecipeModal/>} />
         </Routes>
       )}
     </ThemeProvider>
