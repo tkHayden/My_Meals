@@ -1,6 +1,6 @@
 import {keyframes} from '@mui/system';
 
-const fadeUp = keyframes`
+export const fadeUp = keyframes`
 from {
   transform: translateY(2%);
   opacity: 0;
