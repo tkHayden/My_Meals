@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import HeaderBar from '../HeadBar';
-import Footer from '../Footer';
 import {Box, Typography} from '@mui/material';
 import {mainText} from '../Home.style';
 import IconButton from '@mui/material/IconButton';
@@ -31,42 +29,38 @@ const Recipes = () => {
   }
 `;
   return (
-    <Box sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-      <HeaderBar />
-      <Box sx={{
-        display: 'flex',
-        flexGrow: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center',
-        animation: `${spin}`}}>
-        <Typography variant='h2'
-          sx={{...mainText, maxWidth: 700, animation: `${spin} 1s ease`}}>
+    <Box sx={{
+      display: 'flex',
+      flexGrow: 1,
+      justifyContent: 'center',
+      flexDirection: 'column',
+      alignItems: 'center',
+      animation: `${spin}`}}>
+      <Typography variant='h2'
+        sx={{...mainText, maxWidth: 700, animation: `${spin} 1s ease`}}>
         Search through a diverse collection of recipes!
-        </Typography>
-        <Paper
-          component="form"
-          sx={{p: '2px 4px', display: 'flex',
-            alignContent: 'center', width: 300, mb: 10}}
-        >
-          <InputBase
-            sx={{ml: 1, flex: 1}}
-            placeholder="Search Recipes..."
-            inputProps={{'aria-label': 'search recipes'}}
-            value = {searchValue}
-            onChange = {(e) => setSearchValue(e.target.value)}
-          />
-          <IconButton sx={{p: '10px'}}
-            aria-label="search"
-            onClick={onSearch}>
-            <SearchIcon />
-          </IconButton>
+      </Typography>
+      <Paper
+        component="form"
+        sx={{p: '2px 4px', display: 'flex',
+          alignContent: 'center', width: 300, mb: 10}}
+      >
+        <InputBase
+          sx={{ml: 1, flex: 1}}
+          placeholder="Search Recipes..."
+          inputProps={{'aria-label': 'search recipes'}}
+          value = {searchValue}
+          onChange = {(e) => setSearchValue(e.target.value)}
+        />
+        <IconButton sx={{p: '10px'}}
+          aria-label="search"
+          onClick={onSearch}>
+          <SearchIcon />
+        </IconButton>
 
-        </Paper>
-        <Outlet/>
+      </Paper>
+      <Outlet/>
 
-      </Box>
-      <Footer/>
     </Box>
   );
 };
