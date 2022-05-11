@@ -18,23 +18,26 @@ const ResultRecipes = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3010/v0/recipes?' + new URLSearchParams({
-      search: searchParams.get('search'),
-      offset: 0,
-    }))
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setRemainingRecipes(data.remaining);
-          setResultRecipes(data.results);
-        });
+    // only fetch if search query is set. This keeps the background
+    // state (resultRecipes) intact when RecipeModal is opened
+    if (searchParams.get('search')) {
+      fetch('http://localhost:3010/v0/recipes?' + new URLSearchParams({
+        search: searchParams.get('search'),
+        offset: 0,
+      }))
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setRemainingRecipes(data.remaining);
+            setResultRecipes(data.results);
+          });
+    }
   }, [searchParams]);
 
   const loadMore = () => {
     setIsLoading(true);
     const offset = offsetSearch + 20;
     setOffset(offset );
-    console.log(offset );
     fetch('http://localhost:3010/v0/recipes?' + new URLSearchParams({
       search: searchParams.get('search'),
       offset: offset,
