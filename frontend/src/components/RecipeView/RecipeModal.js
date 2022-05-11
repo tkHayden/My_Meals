@@ -12,16 +12,20 @@ const RecipeModal = () => {
   };
   return (
     <Dialog
-    fullScreen
+      fullScreen
       open={true}
       onClose={handleClose}
     >
       <Layout>
-      <Recipe>
-      <Button onClick={() => handleClose()} variant='large' sx={{color: 'black'}}>
-        Close Modal
-      </Button>
-      </Recipe>
+        <Recipe>
+          <Button
+            onClick={() => handleClose()}
+            size='large' color='primary'
+            variant='contained'
+            sx={{alignSelf: 'center'}}>
+        Return to results
+          </Button>
+        </Recipe>
       </Layout>
 
     </Dialog>

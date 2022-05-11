@@ -59,8 +59,8 @@ const Recipe = (props) => {
           <Box
             component="img"
             sx={{
-              maxHeight: {xs: 400, lg: 500},
-              maxWidth: {xs: 400, lg: 500},
+              maxHeight: {xs: 350, sm: 400, lg: 450},
+              maxWidth: {xs: 350, sm: 400, lg: 450},
             }}
             alt={`${recipe.title}`}
             src="https://spoonacular.com/recipeImages/800754-556x370.jpg"
@@ -69,10 +69,10 @@ const Recipe = (props) => {
         <Grid item xs={12} md={6} sx={{display: 'flex', justifyContent: 'center'}}>
 
           <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-            <Typography variant='h3' sx={{textAlign: 'center', fontSize: {xs: 40, sm: 45, md: 50, lg: 55}, p: 1}}>
+            <Typography variant='h3' sx={{textAlign: 'center', fontSize: {xs: 40, sm: 45, md: 50, lg: 55}, p: 2}}>
               {recipe.title}
             </Typography>
-            <Typography variant="h6" sx={{textAlign: 'center', maxWidth: '100%'}}>
+            <Typography variant="h6" sx={{textAlign: 'center', maxWidth: '100%', pb: 2}}>
               {recipe.nutrients[0].amount} Calories | {recipe.readyInMinutes} mins | {recipe.servings} servings
             </Typography>
             {props.children}
@@ -85,24 +85,28 @@ const Recipe = (props) => {
           <TitleDivider/>
           <InfoList >
             <ListItem
+              divider = {true}
               key={recipe.cuisines}>
               <ListItemText
                 primary= {`Cuisine types: ${recipe.cuisines}`}
               />
             </ListItem>
             <ListItem
+              divider = {true}
               key={recipe.diets}>
               <ListItemText
                 primary= {`Diet types: ${recipe.diets}`}
               />
             </ListItem>
             <ListItem
+              divider = {true}
               key={recipe.readyInMinutes}>
               <ListItemText
                 primary= {`Total time: ${recipe.readyInMinutes} mins`}
               />
             </ListItem>
             <ListItem
+              divider = {true}
               key={recipe.servings}>
               <ListItemText
                 primary= {`Servings: ${recipe.servings}`}
