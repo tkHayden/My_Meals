@@ -1,16 +1,13 @@
 import React, {useState} from 'react';
 import {Box, Grid, Typography,
   ListItem, ListItemText} from '@mui/material';
-import HeaderBar from '../HeadBar';
-import Footer from '../Footer';
-import {GridItem, InfoList} from './Recipe.style';
+import {GridItem, InfoList, TitleDivider} from './Recipe.style';
 
 // development data
 import data from '../../devData.json';
 
-const Recipe = () => {
+const Recipe = (props) => {
   const [recipe, setRecipe] = useState(data);
-
   const renderIngredients = () => {
     return (
       <>
@@ -56,98 +53,103 @@ const Recipe = () => {
     );
   };
   return (
-    <Box sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-      <HeaderBar />
-      <Box sx={{flexGrow: 1, pb: 5, display: 'flex', justifyContent: 'center'}}>
-        <Grid container space={2} sx={{maxWidth: 1100}}>
-          <Grid item xs={12} sm={6} sx={{display: 'flex', justifyContent: 'center'}}>
-            <Box
-              component="img"
-              sx={{
-                height: 233,
-                width: 350,
-                maxHeight: {xs: 233, md: 350},
-                maxWidth: {xs: 350, md: 350},
-              }}
-              alt="The house from the offer."
-              src="https://spoonacular.com/recipeImages/800754-556x370.jpg"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} sx={{display: 'flex', justifyContent: 'center'}}>
-
-            <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-              <Typography>
-                {recipe.title}
-              </Typography>
-              <Typography>
-                {recipe.nutrients[0].amount} Calories | {recipe.readyInMinutes} mins | {recipe.servings} servings
-              </Typography>
-            </Box>
-          </Grid>
-          <GridItem item xs={12} sm={6} >
-            <Typography variant='h4'>
-                General Info
-            </Typography>
-            <InfoList >
-              <ListItem>
-                <ListItemText
-                  primary= {`Cuisine types: ${recipe.cuisines}`}
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary= {`Diet types: ${recipe.diets}`}
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary= {`Total time: ${recipe.readyInMinutes} mins`}
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary= {`Servings: ${recipe.servings}`}
-                />
-              </ListItem>
-
-            </InfoList>
-          </GridItem>
-          <GridItem item xs={12} sm={6} >
-            <Typography variant='h4'>
-                Ingredients
-            </Typography>
-            <InfoList>
-              {renderIngredients()}
-            </InfoList>
-          </GridItem>
-          <GridItem item xs={12} sm={6}>
-            <Typography variant='h4'>
-                Nutrients
-            </Typography>
-            <InfoList>
-              {renderNutrients()}
-            </InfoList>
-          </GridItem>
-          <GridItem item xs={12} sm={6} >
-            <Typography variant='h4'>
-              Instructions
-            </Typography>
-            <InfoList>
-              {recipe.instructions.map((i) => {
-                return (
-                  <ListItem>
-                    <ListItemText
-                      primary= {i}
-
-                    />
-                  </ListItem>
-                );
-              })}
-            </InfoList>
-          </GridItem>
+    <Box sx={{flexGrow: 1, pb: 5, display: 'flex', justifyContent: 'center', mt: 3}}>
+      <Grid container spacing={2} sx={{maxWidth: 1100}}>
+        <Grid item xs={12} md={6} sx={{display: 'flex', justifyContent: 'center'}}>
+          <Box
+            component="img"
+            sx={{
+              maxHeight: {xs: 400, lg: 500},
+              maxWidth: {xs: 400, lg: 500},
+            }}
+            alt={`${recipe.title}`}
+            src="https://spoonacular.com/recipeImages/800754-556x370.jpg"
+          />
         </Grid>
-      </Box>
-      <Footer />
+        <Grid item xs={12} md={6} sx={{display: 'flex', justifyContent: 'center'}}>
+
+          <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+            <Typography variant='h3' sx={{textAlign: 'center', fontSize: {xs: 40, sm: 45, md: 50, lg: 55}, p: 1}}>
+              {recipe.title}
+            </Typography>
+            <Typography variant="h6" sx={{textAlign: 'center', maxWidth: '100%'}}>
+              {recipe.nutrients[0].amount} Calories | {recipe.readyInMinutes} mins | {recipe.servings} servings
+            </Typography>
+            {props.children}
+          </Box>
+        </Grid>
+        <GridItem item xs={12} sm={6} >
+          <Typography variant='h4'>
+                General Info
+          </Typography>
+          <TitleDivider/>
+          <InfoList >
+            <ListItem
+              key={recipe.cuisines}>
+              <ListItemText
+                primary= {`Cuisine types: ${recipe.cuisines}`}
+              />
+            </ListItem>
+            <ListItem
+              key={recipe.diets}>
+              <ListItemText
+                primary= {`Diet types: ${recipe.diets}`}
+              />
+            </ListItem>
+            <ListItem
+              key={recipe.readyInMinutes}>
+              <ListItemText
+                primary= {`Total time: ${recipe.readyInMinutes} mins`}
+              />
+            </ListItem>
+            <ListItem
+              key={recipe.servings}>
+              <ListItemText
+                primary= {`Servings: ${recipe.servings}`}
+              />
+            </ListItem>
+
+          </InfoList>
+        </GridItem>
+        <GridItem item xs={12} sm={6} >
+          <Typography variant='h4'>
+                Ingredients
+          </Typography>
+          <TitleDivider/>
+          <InfoList>
+            {renderIngredients()}
+          </InfoList>
+        </GridItem>
+        <GridItem item xs={12} sm={6}>
+          <Typography variant='h4' >
+                Nutrients
+          </Typography>
+          <TitleDivider/>
+          <InfoList>
+            {renderNutrients()}
+          </InfoList>
+        </GridItem>
+        <GridItem item xs={12} sm={6} >
+          <Typography variant='h4'>
+              Instructions
+          </Typography>
+          <TitleDivider/>
+          <InfoList>
+            {recipe.instructions.map((instruction, i) => {
+              return (
+                <ListItem
+                  key={instruction}>
+                  <ListItemText
+                    primary= {`${i + 1}. ${instruction}`}
+
+                  />
+                </ListItem>
+              );
+            })}
+          </InfoList>
+        </GridItem>
+      </Grid>
+
     </Box>
   );
 };
