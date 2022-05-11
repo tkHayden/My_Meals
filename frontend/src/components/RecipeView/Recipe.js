@@ -1,13 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Grid, Typography,
-  ListItem, ListItemText} from '@mui/material';
+  ListItem, ListItemText, CircularProgress} from '@mui/material';
 import {GridItem, InfoList, TitleDivider} from './Recipe.style';
+import {useParams} from 'react-router-dom';
+import {fadeUp} from './RecipeList.style.js';
 
 // development data
-import data from '../../devData.json';
 
 const Recipe = (props) => {
-  const [recipe, setRecipe] = useState(data);
+  const [recipe, setRecipe] = useState(null);
+  const {id} = useParams();
+
+  useEffect(() => {
+    fetch(`http://localhost:3010/v0/recipe/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setRecipe(data);
+        });
+  }, [id]);
+
   const renderIngredients = () => {
     return (
       <>
@@ -54,7 +66,8 @@ const Recipe = (props) => {
   };
   return (
     <Box sx={{flexGrow: 1, pb: 5, display: 'flex', justifyContent: 'center', mt: 3}}>
-      <Grid container spacing={2} sx={{maxWidth: 1100}}>
+      {recipe ?
+      <Grid container spacing={2} sx={{maxWidth: 1100, animation: `${fadeUp} 2s ease`}}>
         <Grid item xs={12} md={6} sx={{display: 'flex', justifyContent: 'center'}}>
           <Box
             component="img"
@@ -63,7 +76,7 @@ const Recipe = (props) => {
               maxWidth: {xs: 350, sm: 400, lg: 450},
             }}
             alt={`${recipe.title}`}
-            src="https://spoonacular.com/recipeImages/800754-556x370.jpg"
+            src= {`${recipe.image}`}
           />
         </Grid>
         <Grid item xs={12} md={6} sx={{display: 'flex', justifyContent: 'center'}}>
@@ -152,8 +165,10 @@ const Recipe = (props) => {
             })}
           </InfoList>
         </GridItem>
-      </Grid>
-
+      </Grid> :
+      <Box>
+        <CircularProgress size='80px' sx={{marginTop: 50}}/>
+      </Box>}
     </Box>
   );
 };
