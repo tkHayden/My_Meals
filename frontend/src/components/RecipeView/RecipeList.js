@@ -4,7 +4,10 @@ import {Box, Grid, Typography, Card,
   CardContent, CardMedia, Divider} from '@mui/material';
 import NoMealsIcon from '@mui/icons-material/NoMeals';
 
+import {useLocation, Link} from 'react-router-dom';
+
 const RecipeList = (props) => {
+  const location = useLocation();
   const featuredList = (recipes) => {
     if (recipes.length <= 0) {
       return (
@@ -20,25 +23,32 @@ const RecipeList = (props) => {
           {recipes.map((recipe) => {
             return (
               <Grid item xs={12} sm={6} md={4} lg={3} key={recipe.title}>
-                <Card
-                  sx={{...recipeCard}}>
-                  <CardMedia
-                    component="img"
-                    height='200'
-                    image= {recipe.image}
-                    alt= {`picture of ${recipe.title}`}
-                  />
-                  <Divider/>
-                  <CardContent >
-                    <Typography variant="h6" component="div"
-                      sx={{...recipeTitle}}>
-                      {recipe.title.length > 45 ?
+                <Link
+                  key={recipe.id}
+                  to={'/recipe'}
+                  state={{backgroundLocation: location}}
+                  style={{textDecoration: 'none'}}
+                >
+                  <Card
+                    sx={{...recipeCard}}>
+                    <CardMedia
+                      component="img"
+                      height='200'
+                      image= {recipe.image}
+                      alt= {`picture of ${recipe.title}`}
+                    />
+                    <Divider/>
+                    <CardContent >
+                      <Typography variant="h6" component="div"
+                        sx={{...recipeTitle}}>
+                        {recipe.title.length > 45 ?
                      `${recipe.title.substring(0, 45)}...` :
                       recipe.title }
-                    </Typography>
+                      </Typography>
 
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </Link>
               </Grid>
             );
           })}
@@ -59,7 +69,6 @@ const RecipeList = (props) => {
         </Grid>
         {featuredList(props.recipes)}
       </Grid>
-
     </Box>
   );
 };
