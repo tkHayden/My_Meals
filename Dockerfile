@@ -1,7 +1,8 @@
 FROM node:16
 
-ENV MONGO_DB_USERNAME=admin \
-    MONGO_DB_PWD=password
+ENV POSTGRES_DB=dev \
+    POSTGRES_USER=remotegang\
+    POSTGRES_PASSWORD=cse115
 
 RUN mkdir -p /home/backend
 
