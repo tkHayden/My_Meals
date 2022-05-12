@@ -18,6 +18,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes: 
+      - mongo-data:/data/db
     networks:
       - app-network
   mongo-express:
@@ -35,3 +37,7 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
