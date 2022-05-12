@@ -21,7 +21,6 @@
     "express-openapi-validator": "^4.13.7",
     "handlebars": "^4.7.7",
     "js-yaml": "^4.1.0",
-    "mongodb": "^4.5.0",
     "node-cache": "^5.1.2",
     "pg": "^8.7.3",
     "swagger-ui-express": "^4.3.0"
