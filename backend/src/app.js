@@ -8,19 +8,13 @@ const path = require('path');
 const OpenApiValidator = require('express-openapi-validator');
 const recipes = require('./recipes');
 const user = require('./user');
-const {verifyUserId} = require('./util/middleware');
-
+const {verifyUserId, checkJwt} = require('./util/middleware');
 
 const app = express();
-const {auth} = require('express-oauth2-jwt-bearer');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-const checkJwt = auth({
-  audience: 'http://www.my-meals-api.com',
-  issuerBaseURL: `https://dev-ph7ct1gd.us.auth0.com/`,
-});
 
 app.get('/name', checkJwt, verifyUserId, user.getName);
 const apiSpec = path.join(__dirname, '../api/openapi.yaml');
