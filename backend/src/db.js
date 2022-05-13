@@ -8,12 +8,16 @@ const pool = new Pool({
   password: process.env.POSTGRES_PASSWORD,
 });
 
-exports.getUser = async () => {
-  const select = 'SELECT * FROM member';
+exports.getAllGroceryLists = async (userId) => {
+  const select = 'SELECT * FROM grocery_list WHERE user_id = $1';
   const query = {
     text: select,
-    values: [],
+    values: [userId],
   };
   const {rows} = await pool.query(query);
   return rows.length == 0 ? false : rows;
+};
+
+exports.createGroceryList = async (userId) => {
+
 };
