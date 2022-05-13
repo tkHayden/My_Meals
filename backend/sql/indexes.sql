@@ -1,0 +1,1 @@
+CREATE INDEX user_id_index on grocery_list(user_id)
