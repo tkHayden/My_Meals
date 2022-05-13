@@ -18,6 +18,19 @@ exports.getAllGroceryLists = async (userId) => {
   return rows.length == 0 ? false : rows;
 };
 
-exports.createGroceryList = async (userId) => {
+exports.createGroceryList = async (userId, listName) => {
+  try {
+    const select = 'INSERT INTO grocery_list(list_name, user_id)' +
+   ' VALUES ($1, $2) RETURNING id, list_name, user_id';
 
+    const query = {
+      text: select,
+      values: [listName, userId],
+    };
+    const {rows} = await pool.query(query);
+    return rows.length == 0 ? false : rows;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
