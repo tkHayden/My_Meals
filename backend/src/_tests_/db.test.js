@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const supertest = require('supertest');
 const http = require('http');
 
@@ -18,18 +19,17 @@ afterAll((done) => {
   server.close(done);
 });
 
-const mockLists = ['monday_list', 'superbowl',
-  'weekend list', 'birthday list', 'list_1'];
+const mockLists = [['monday_list', 0], ['superbowl', 1],
+  ['weekend list', 1], ['birthday list', 2], ['list_1', 2]];
 
 
 describe('Inserting into grocery_list queries', () => {
   test('Inserting new grocery_lists', async () => {
     for (const list of mockLists) {
-      id = Math.floor(Math.random() * 10);
-      const result = await query.createGroceryList(id, list);
+      const result = await query.createGroceryList(list[1], list[0]);
       expect(result[0].id).not.toBe(null);
-      expect(result[0]['list_name']).toBe(list);
-      expect(result[0]['user_id']).toBe(`${id}`);
+      expect(result[0]['list_name']).toBe(list[0]);
+      expect(result[0]['user_id']).toBe(`${list[1]}`);
     }
   });
   test('Inserting a grocery_list with same name for a user', async () => {
@@ -47,5 +47,44 @@ describe('Selecting from grocery_list queries', () => {
     for (const item of result) {
       expect(item['user_id']).toBe('1');
     }
+  });
+});
+describe('Delete query from grocery_list', () => {
+  test('Valid delete of users grocery list', async () => {
+    const result = await query.createGroceryList(1, 'monday_list');
+    const del = await query.deleteGroceryList(1, result[0].id);
+    expect(del[0]['list_name']).toBe('monday_list');
+  });
+  test('Invalid delete of non-existant list id', async () => {
+    const del = await query.deleteGroceryList(1, 12345);
+    expect(del).toBe(null);
+  });
+  test('Invalid delete due to non-matching user-id', async () => {
+    const result = await query.createGroceryList('monday_list', 2);
+    const del = await query.deleteGroceryList(1, result[0].id);
+    expect(del).toBe(null);
+  });
+});
+describe('Update query for grocery_list', () => {
+  test('Valid update of a users grocery list', async () => {
+    const listId = '1f1afa4c-d22d-11ec-9d64-0242ac120002';
+    const update = await query.updateGroceryListName(1, listId, 'updated_list');
+    expect(update[0].id).toBe(listId);
+    expect(update[0]['list_name']).toBe('updated_list');
+  });
+  test('Invalid update of non-existent grocery list id', async () => {
+    const listId = '1f1afa4c-d22d-11ec-9d64-02ac120002';
+    const update = await query.updateGroceryListName(1, listId, 'updated_list');
+    expect(update).toBe(null);
+  });
+  test('Invalid update due to non-matching user-id', async () => {
+    const listId = '1f1afa4c-d22d-11ec-9d64-0242ac120002';
+    const update = await query.updateGroceryListName(2, listId, 'updated_list');
+    expect(update).toBe(null);
+  });
+  test('Invalid update due to new name already existing as a users grocerylist', async () => {
+    const listId = '1f1b00be-d22d-11ec-9d64-0242ac120002';
+    const update = await query.updateGroceryListName(1, listId, 'updated_list');
+    expect(update).toBe(null);
   });
 });
