@@ -80,7 +80,146 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      
+  /{userId}/grocerylist:
+    get:
+      description: Get all grocery lists associated with a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Valid request for user's grocery lists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroceryLists'
+        401:
+          description: Unauthorized
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: Create new grocery list for user
+      security: 
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 30
+      responses:
+        201:
+          description: Successfully created new grocery list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroceryList'
+        401:
+          description: Unauthorized
+        409:
+          description: Grocery list with that name already exists for the user
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /{userId}/grocerylist/{listId}:
+    put:
+      description: Change the name of a user's grocery list
+      security: 
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: listId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newName:
+                  type: string
+                  maxLength: 30
+      responses:
+        200:
+          description: Successfully changed the name of the user's grocery list
+        401:
+          description: Unauthorized
+        404:
+          description: Server couldn't find that grocery list for the user
+        403:
+          description: Grocery list with that name already exists for the user
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      description: Delete the user's gorcery list
+      security: 
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true    
+        - in: path
+          name: listId
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Successfully delete the grocery list
+        401:
+          description: Unauthorized
+        404:
+          description: Server couldn't find that grocery list for the user
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+
+
+        
+         
+
+
 
 
 
@@ -172,3 +311,23 @@ components:
           type: array
           items:
             type: string
+    GroceryLists:
+      type: array
+      items:
+        $ref: '#/components/schemas/GroceryList'
+    GroceryList:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+        listName:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
