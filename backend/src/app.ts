@@ -1,23 +1,20 @@
 /* eslint-disable max-len */
-const express = require('express');
-const cors = require('cors');
-const yaml = require('js-yaml');
-const swaggerUi = require('swagger-ui-express');
-const fs = require('fs');
-const path = require('path');
-const OpenApiValidator = require('express-openapi-validator');
-const recipes = require('./recipes');
-const user = require('./user');
+import express from 'express';
+import cors from 'cors';
+import yaml from 'js-yaml';
+import swaggerUi from 'swagger-ui-express';
+import fs from 'fs';
+import path from 'path';
+import OpenApiValidator from 'express-openapi-validator';
+const recipes = require('./controllers/recipes');
 const {verifyUserId, checkJwt} = require('./util/middleware');
-const grocerylist = require('./grocerylist');
+const grocerylist = require('./controllers/grocerylist');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-app.delete('/v0/:userId/grocerylist/:listId', checkJwt, verifyUserId, grocerylist.deleteUsersGroceryList);
-app.get('/name', checkJwt, verifyUserId, user.getName);
 const apiSpec = path.join(__dirname, '../api/openapi.yaml');
 const apidoc = yaml.load(fs.readFileSync(apiSpec, 'utf8'));
 app.use('/v0/api-docs', swaggerUi.serve, swaggerUi.setup(apidoc));
