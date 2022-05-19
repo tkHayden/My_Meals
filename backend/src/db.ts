@@ -1,4 +1,4 @@
-const {Pool} = require('pg');
+import {Pool} from 'pg';
 
 const pool = new Pool({
   host: 'postgres',
@@ -8,17 +8,27 @@ const pool = new Pool({
   password: process.env.POSTGRES_PASSWORD,
 });
 
-exports.getAllGroceryLists = async (userId) => {
+interface GroceryListInterface  {
+  id?: string
+  list_name: string
+  user_id: string
+
+}
+
+
+
+
+export const getAllGroceryLists = async (userId: string): Promise<GroceryListInterface[] | null> => {
   const select = 'SELECT * FROM grocery_list WHERE user_id = $1';
   const query = {
     text: select,
     values: [userId],
   };
-  const {rows} = await pool.query(query);
-  return rows.length == 0 ? false : rows;
+  const {rows} = await pool.query<GroceryListInterface>(query);
+  return rows.length == 0 ? null : rows;
 };
 
-exports.createGroceryList = async (userId, listName) => {
+export const createGroceryList= async (userId: string, listName: string) : Promise<GroceryListInterface[] | null> => {
   try {
     const insert = 'INSERT INTO grocery_list(list_name, user_id)' +
    ' VALUES ($1, $2) RETURNING id, list_name, user_id';
@@ -27,7 +37,7 @@ exports.createGroceryList = async (userId, listName) => {
       text: insert,
       values: [listName, userId],
     };
-    const {rows} = await pool.query(query);
+    const {rows} = await pool.query<GroceryListInterface>(query);
     return rows.length == 0 ? null : rows;
   } catch (error) {
     console.log(error);
@@ -35,7 +45,7 @@ exports.createGroceryList = async (userId, listName) => {
   }
 };
 
-exports.deleteGroceryList = async (userId, listId) => {
+export const deleteGroceryList = async (userId : string, listId: string): Promise<GroceryListInterface[] | null> => {
   try {
     const del = 'DELETE FROM grocery_list WHERE id = $1 and user_id = $2' +
      ' RETURNING list_name';
@@ -44,15 +54,14 @@ exports.deleteGroceryList = async (userId, listId) => {
       text: del,
       values: [listId, userId],
     };
-    const {rows} = await pool.query(query);
+    const {rows} = await pool.query<GroceryListInterface>(query);
     return rows.length == 0 ? null : rows;
   } catch (error) {
     console.log(error);
     return null;
   }
 };
-
-exports.updateGroceryListName = async (userId, listId, newName) => {
+export const updateGroceryListName = async (userId: string, listId: string, newName: string): Promise<GroceryListInterface[] | null> => {
   try {
     const update = 'UPDATE grocery_list SET list_name = $1' +
      ' WHERE id = $2 and user_id = $3 RETURNING *';
@@ -61,7 +70,7 @@ exports.updateGroceryListName = async (userId, listId, newName) => {
       text: update,
       values: [newName, listId, userId],
     };
-    const {rows} = await pool.query(query);
+    const {rows} = await pool.query<GroceryListInterface>(query);
     return rows.length == 0 ? null : rows;
   } catch (error) {
     return null;
