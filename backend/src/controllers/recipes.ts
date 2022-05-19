@@ -23,8 +23,10 @@ interface SearchResults {
 exports.searchRecipes = async (req: Request, res: Response): Promise<void> => {
   try {
     const searchVal = req.query.search;
-    const offsetString: string = req.query.offset as string
-    const offset = parseInt(offsetString)
+    let offset = 0
+    if (req.query.offset){
+      offset = parseInt(req.query.offset as string)
+    }
     const recipeResponse = await axios.get<SearchResults>(`${spoonacular}?query=${searchVal}&offset=${offset}&number=20&apiKey=${apiKey}`);
     const remainingResults = recipeResponse.data.totalResults - offset - 20;
     const resObj = {
