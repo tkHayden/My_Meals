@@ -103,7 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnyValues'
+                $ref: '#/components/schemas/AnyValue'
         default:
           description: unexpected error
           content:
@@ -142,7 +142,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnyValues'
+                $ref: '#/components/schemas/AnyValue'
         409:
           description: Grocery list with that name already exists for the user
         default:
@@ -185,7 +185,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnyValues'
+                $ref: '#/components/schemas/AnyValue'
         404:
           description: Server couldn't find that grocery list for the user
         403:
@@ -219,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnyValues'
+                $ref: '#/components/schemas/AnyValue'
         404:
           description: Server couldn't find that grocery list for the user
         default:
