@@ -1,16 +1,33 @@
 /* eslint-disable max-len */
-const axios = require('axios');
-const NodeCache = require( 'node-cache' );
+import axios from 'axios';
+import NodeCache from 'node-cache' ;
+import { Request, Response} from 'express';
 const myCache = new NodeCache();
 
 const spoonacular = 'https://api.spoonacular.com/recipes/complexSearch';
 const apiKey = process.env.SPOONACULAR_API_KEY;
 
-exports.searchRecipes = async (req, res) => {
+interface RecipeInterface {
+  id: string
+  title: string
+  image?: string
+  imageType?:string
+}
+
+interface SearchResults {
+  results: RecipeInterface []
+  offset: number
+  number: number
+  totalResults: number
+}
+exports.searchRecipes = async (req: Request, res: Response): Promise<void> => {
   try {
     const searchVal = req.query.search;
-    const offset = req.query.offset;
-    const recipeResponse = await axios.get(`${spoonacular}?query=${searchVal}&offset=${offset}&number=20&apiKey=${apiKey}`);
+    let offset = 0
+    if (req.query.offset){
+      offset = parseInt(req.query.offset as string)
+    }
+    const recipeResponse = await axios.get<SearchResults>(`${spoonacular}?query=${searchVal}&offset=${offset}&number=20&apiKey=${apiKey}`);
     const remainingResults = recipeResponse.data.totalResults - offset - 20;
     const resObj = {
       results: recipeResponse.data.results,
