@@ -6,7 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import path from 'path';
 import OpenApiValidator from 'express-openapi-validator';
-const recipes = require('./controllers/recipes');
+import {searchRecipes, getFeaturedRecipes, getRecipe}from './controllers/recipes';
 import {verifyUserId, checkJwt} from './util/middleware';
 import {getUsersGroceryLists, addUsersNewGrocerylist, 
   deleteUsersGroceryList,updateUsersGroceryListName} from './controllers/grocerylist'
@@ -34,9 +34,9 @@ app.use(
   }),
 );
 
-app.get('/v0/recipes', recipes.searchRecipes);
-app.get('/v0/featured_recipes', recipes.getFeaturedRecipes);
-app.get('/v0/recipe/:id', recipes.getRecipe);
+app.get('/v0/recipes', searchRecipes);
+app.get('/v0/featured_recipes', getFeaturedRecipes);
+app.get('/v0/recipe/:id', getRecipe);
 app.get('/v0/:userId/grocerylist', checkJwt, verifyUserId, getUsersGroceryLists);
 app.post('/v0/:userId/grocerylist', checkJwt, verifyUserId, addUsersNewGrocerylist);
 app.delete('/v0/:userId/grocerylist/:listId', checkJwt, verifyUserId, deleteUsersGroceryList);

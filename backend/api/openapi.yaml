@@ -317,8 +317,6 @@ components:
                 type: number
               unit:
                 type: string
-              meta:
-                type: string
         cuisines:
           type: string
         diets:

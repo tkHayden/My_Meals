@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 import {auth} from 'express-oauth2-jwt-bearer';
 import { Request, Response, NextFunction } from 'express';
 
+
+
 const AUDIENCE = process.env.AUTH0_AUDIENCE;
 const URL = process.env.AUTH0_ISSUEURL;
 

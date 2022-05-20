@@ -1,26 +1,16 @@
 /* eslint-disable max-len */
 import axios from 'axios';
-import NodeCache from 'node-cache' ;
+import {CacheContainer } from 'node-ts-cache'
+import { MemoryStorage } from 'node-ts-cache-storage-memory'
 import { Request, Response} from 'express';
-const myCache = new NodeCache();
+import {SpoonacularRecipe, IngredientsNutrients, RecipeInterface, 
+  FeatureResults, RecipeResult, SearchResults} from '../models/recipes.model'
+const myCache = new CacheContainer(new MemoryStorage())
 
 const spoonacular = 'https://api.spoonacular.com/recipes/complexSearch';
 const apiKey = process.env.SPOONACULAR_API_KEY;
 
-interface RecipeInterface {
-  id: string
-  title: string
-  image?: string
-  imageType?:string
-}
-
-interface SearchResults {
-  results: RecipeInterface []
-  offset: number
-  number: number
-  totalResults: number
-}
-exports.searchRecipes = async (req: Request, res: Response): Promise<void> => {
+export const searchRecipes = async (req: Request, res: Response): Promise<void> => {
   try {
     const searchVal = req.query.search;
     let offset = 0
@@ -40,24 +30,27 @@ exports.searchRecipes = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-exports.getFeaturedRecipes = async (req, res) => {
+export const getFeaturedRecipes = async (req: Request, res: Response): Promise<void> => {
   try {
-    const cachedRecipes = myCache.get('featured_recipes');
+    const cachedRecipes = await myCache.getItem<RecipeInterface[]>('featured_recipes');
     if (cachedRecipes) {
       console.log('cached');
       res.status(200).json(cachedRecipes);
     } else {
-      const featureResponse = await axios.get(`https://api.spoonacular.com/recipes/random?number=20&apiKey=${apiKey}`);
-
-      const keys = ['id', 'title', 'calories', 'image'];
+      const featureResponse = await axios.get<FeatureResults>(`https://api.spoonacular.com/recipes/random?number=20&apiKey=${apiKey}`);
       const filteredRecipes = featureResponse.data.recipes.map((recipe) => {
-        const obj ={};
-        for (const key of keys) {
-          obj[key] = recipe[key];
+        const obj: RecipeInterface={
+          id: '',
+          title: '',
+          image: '',
+          imageType: ''
+          };
+        for (const key of Object.keys(obj)) {
+          obj[key]= recipe[key];
         }
         return obj;
       });
-      myCache.set('featured_recipes', filteredRecipes, 3600);
+      myCache.setItem('featured_recipes', filteredRecipes, {ttl:3600});
       res.status(200).json(filteredRecipes);
     }
   } catch (error) {
@@ -66,11 +59,11 @@ exports.getFeaturedRecipes = async (req, res) => {
   }
 };
 
-exports.getRecipe = async (req, res) => {
+export const getRecipe = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
 
-    const recipeResult = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${apiKey}`);
+    const recipeResult = await axios.get<SpoonacularRecipe>(`https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${apiKey}`);
     if (recipeResult.status == 200) {
       const recipe = filterRecipe(recipeResult.data);
       res.status(200).json(recipe);
@@ -83,9 +76,9 @@ exports.getRecipe = async (req, res) => {
   }
 };
 
-const filterRecipe = (recipe) => {
+const filterRecipe = (recipe: SpoonacularRecipe): RecipeResult => {
   const keys = ['id', 'title', 'readyInMinutes', 'servings', 'image'];
-  const newRecipeObj = {instructions: []};
+  const newRecipeObj= {} as RecipeResult;
   for (const key of keys) {
     newRecipeObj[key] = recipe[key];
   }
@@ -97,25 +90,22 @@ const filterRecipe = (recipe) => {
       newRecipeObj.instructions.push(instruction.step);
     }
   }
-  newRecipeObj.ingredients = grabMoreInfo(recipe.extendedIngredients, true);
-  newRecipeObj.nutrients = grabMoreInfo(recipe.nutrition.nutrients, false);
+  console.log(newRecipeObj.id)
+  newRecipeObj.ingredients = grabMoreInfo(recipe.extendedIngredients);
+  newRecipeObj.nutrients = grabMoreInfo(recipe.nutrition.nutrients);
 
   return newRecipeObj;
 };
 
 // Extracts appropriate properties from Ingredients or Nutrients obj from spoonacular's recipe obj response
-const grabMoreInfo = (obj, isIngredients) => {
-  const arr =[];
+const grabMoreInfo = (obj:IngredientsNutrients[] ): IngredientsNutrients[]=> {
+  const arr: IngredientsNutrients[] = [];
   for (const item of obj) {
-    const tempObj = {};
+    const tempObj = {} as IngredientsNutrients;
     tempObj['name'] = item.name;
     tempObj['amount'] = Math.ceil(item.amount);
     tempObj['unit'] = item.unit;
     // Grab meta property only if we passed in the ingredient obj
-    if (isIngredients) {
-      // Changing meta from an array to string of concanated values to make it easier to display on the frontend
-      tempObj['meta'] = item.meta.join(' , ');
-    }
     arr.push(tempObj);
   }
   return arr;
