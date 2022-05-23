@@ -63,8 +63,11 @@
     }
   },
   "scripts": {
-    "start": "nodemon -L src/server.ts",
+    "dev": "nodemon -L src/server.ts",
+    "start": "ts-node src/server.js",
     "test": "jest --runInBand --coverage --verbose --forceExit",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts", 
+    "build": "tsc -p",
+    "clean": "tsc --build --clean"
   }
 }

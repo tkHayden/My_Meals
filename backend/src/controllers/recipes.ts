@@ -31,6 +31,7 @@ export const searchRecipes = async (req: Request, res: Response): Promise<void> 
 };
 
 export const getFeaturedRecipes = async (req: Request, res: Response): Promise<void> => {
+  console.log('here')
   try {
     const cachedRecipes = await myCache.getItem<RecipeInterface[]>('featured_recipes');
     if (cachedRecipes) {
@@ -55,7 +56,7 @@ export const getFeaturedRecipes = async (req: Request, res: Response): Promise<v
     }
   } catch (error) {
     console.log(error);
-    res.status(400).end();
+    res.status(500).end();
   }
 };
 

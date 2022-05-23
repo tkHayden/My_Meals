@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
-import express from 'express';
+import express, {Request, Response} from 'express';
 import cors from 'cors';
 import yaml from 'js-yaml';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import path from 'path';
-import OpenApiValidator from 'express-openapi-validator';
+import * as OpenApiValidator from 'express-openapi-validator';
 import {searchRecipes, getFeaturedRecipes, getRecipe}from './controllers/recipes';
 import {verifyUserId, checkJwt} from './util/middleware';
 import {getUsersGroceryLists, addUsersNewGrocerylist, 
@@ -41,10 +41,10 @@ app.get('/v0/:userId/grocerylist', checkJwt, verifyUserId, getUsersGroceryLists)
 app.post('/v0/:userId/grocerylist', checkJwt, verifyUserId, addUsersNewGrocerylist);
 app.delete('/v0/:userId/grocerylist/:listId', checkJwt, verifyUserId, deleteUsersGroceryList);
 app.put('/v0/:userId/grocerylist/:listId', checkJwt, verifyUserId, updateUsersGroceryListName);
-app.use((err: Error , req: express.Request, res: express.Response, next : express.NextFunction) => {
-  res.status(err.status).json({
+app.use((err: Error , req: Request, res: Response, next : express.NextFunction) => {
+  res.status(500).json({
     message: err.message,
-    status: err.status,
+    status: err.status ,
   });
 });
 
