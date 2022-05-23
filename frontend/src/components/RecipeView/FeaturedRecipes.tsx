@@ -1,19 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import RecipeList from './RecipeList';
 import CircularProgress from '@mui/material/CircularProgress';
+import {BasicRecipe} from './Recipe.model';
 
 
 const FeaturedRecipes = () => {
-  const [featureRecipes, setFeatureRecipes] = useState(null);
+  // eslint-disable-next-line max-len
+  const [featureRecipes, setFeatureRecipes] = useState<BasicRecipe[] | undefined>(undefined);
   useEffect(() => {
     fetch('http://localhost:3010/v0/featured_recipes')
         .then((response) => response.json())
-        .then((data) => setFeatureRecipes(data));
+        .then((data: BasicRecipe[]) => setFeatureRecipes(data));
   }, []);
   return (
     <>
       {featureRecipes ?
-       <RecipeList recipes={featureRecipes} header={'Featured'}/> :
+       <RecipeList recipeList={featureRecipes} header={'Featured'}/> :
        <CircularProgress />
       }
     </>

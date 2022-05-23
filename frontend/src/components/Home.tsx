@@ -10,7 +10,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import {CardActionArea} from '@mui/material';
 import {mainText, cardGrid, cardPic,
-  searchBox, CenterTypography, HomeContainer} from './Home.style.js';
+  searchBox, CenterTypography, HomeContainer} from './Home.style';
 import Button from '@mui/material/Button';
 import {useNavigate} from 'react-router-dom';
 
@@ -35,7 +35,7 @@ const Home = () => {
             sx={{...mainText}}>
               Search For Delicious Recipes and More!
           </Typography>
-          <Typography variant='subtitle'
+          <Typography variant='subtitle1'
             sx={{color: 'gray', maxWidth: 400, textAlign: 'center'}}>
               Search for new recipes, create new grocery list
               and customize your grocery list by adding your favorite recipes.
@@ -59,8 +59,7 @@ const Home = () => {
                 alt="green iguana"
               />
               <CardContent>
-                <CenterTypography gutterBottom variant="h5"
-                  component="div">
+                <CenterTypography gutterBottom variant="h5">
             Search for Recipes
                 </CenterTypography>
                 <CenterTypography variant="body2" color="text.secondary">
@@ -87,7 +86,6 @@ const Home = () => {
               <CardContent>
                 <CenterTypography gutterBottom
                   variant="h5"
-                  component="div"
                   sx={{textAlign: 'center'}}>
                     Create Grocery Lists
                 </CenterTypography >

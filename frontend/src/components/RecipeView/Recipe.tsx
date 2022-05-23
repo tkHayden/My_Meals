@@ -3,18 +3,21 @@ import {Box, Grid, Typography,
   ListItem, ListItemText, CircularProgress} from '@mui/material';
 import {GridItem, InfoList, TitleDivider} from './Recipe.style';
 import {useParams} from 'react-router-dom';
-import {fadeUp} from './RecipeList.style.js';
+import {fadeUp} from './RecipeList.style';
+import {RecipeInterface} from './Recipe.model';
 
-// development data
+type Props = {
+  children: JSX.Element | undefined,
+};
 
-const Recipe = (props) => {
-  const [recipe, setRecipe] = useState(null);
+const Recipe = ({children} : Props) => {
+  const [recipe, setRecipe] = useState<RecipeInterface|undefined>(undefined);
   const {id} = useParams();
 
   useEffect(() => {
     fetch(`http://localhost:3010/v0/recipe/${id}`)
         .then((response) => response.json())
-        .then((data) => {
+        .then((data: RecipeInterface) => {
           console.log(data);
           setRecipe(data);
         });
@@ -23,7 +26,8 @@ const Recipe = (props) => {
   const renderIngredients = () => {
     return (
       <>
-        {recipe.ingredients.map((ingredient) => {
+        {recipe ?
+        recipe.ingredients.map((ingredient) => {
           return (
             <ListItem
               key={ingredient.name}
@@ -31,11 +35,13 @@ const Recipe = (props) => {
             >
 
               <ListItemText
-                primary= {`${ingredient.amount} ${ingredient.unit} of ${ingredient.name}`}
+                primary= {
+                  `${ingredient.amount} ${ingredient.unit} of ${ingredient.name}`
+                }
               />
             </ListItem>
           );
-        })}
+        }) : null}
       </>
     );
   };
@@ -43,7 +49,8 @@ const Recipe = (props) => {
   const renderNutrients = () => {
     return (
       <>
-        {recipe.nutrients.map((nutrient) => {
+        {recipe ?
+        recipe.nutrients.map((nutrient) => {
           return (
             <ListItem
               key={nutrient.name}
@@ -60,15 +67,52 @@ const Recipe = (props) => {
               />
             </ListItem>
           );
-        })}
+        }): null}
       </>
     );
   };
+
+  const renderInstructions = () => {
+    if (recipe && recipe.instructions) {
+      return (
+        <>
+          {recipe.instructions.map((instruction, i) => {
+            return (
+              <ListItem
+                key={instruction}>
+                <ListItemText
+                  primary= {`${i + 1}. ${instruction}`}
+
+                />
+              </ListItem>
+            );
+          })}
+        </>
+      );
+    }
+    return (
+      <ListItem
+        key={1}>
+        <ListItemText
+          primary= {`No available instructions for this recipe`}
+
+        />
+      </ListItem>
+    );
+  };
   return (
-    <Box sx={{flexGrow: 1, pb: 5, display: 'flex', justifyContent: 'center', mt: 3}}>
+    <Box sx={{
+      flexGrow: 1,
+      pb: 5,
+      display: 'flex',
+      justifyContent: 'center',
+      mt: 3}}>
       {recipe ?
-      <Grid container spacing={2} sx={{maxWidth: 1100, animation: `${fadeUp} 2s ease`}}>
-        <Grid item xs={12} md={6} sx={{display: 'flex', justifyContent: 'center'}}>
+      <Grid container spacing={2}
+        sx={{maxWidth: 1100, animation: `${fadeUp} 2s ease`}}
+      >
+        <Grid item xs={12} md={6}
+          sx={{display: 'flex', justifyContent: 'center'}}>
           <Box
             component="img"
             sx={{
@@ -79,16 +123,25 @@ const Recipe = (props) => {
             src= {`${recipe.image}`}
           />
         </Grid>
-        <Grid item xs={12} md={6} sx={{display: 'flex', justifyContent: 'center'}}>
+        <Grid item xs={12} md={6}
+          sx={{display: 'flex', justifyContent: 'center'}}
+        >
 
-          <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-            <Typography variant='h3' sx={{textAlign: 'center', fontSize: {xs: 40, sm: 45, md: 50, lg: 55}, p: 2}}>
+          <Box
+            sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}
+          >
+            <Typography variant='h3'
+              sx={{textAlign: 'center',
+                fontSize: {xs: 40, sm: 45, md: 50, lg: 55},
+                p: 2}}
+            >
               {recipe.title}
             </Typography>
-            <Typography variant="h6" sx={{textAlign: 'center', maxWidth: '100%', pb: 2}}>
+            <Typography variant="h6"
+              sx={{textAlign: 'center', maxWidth: '100%', pb: 2}}>
               {recipe.nutrients[0].amount} Calories | {recipe.readyInMinutes} mins | {recipe.servings} servings
             </Typography>
-            {props.children}
+            {children}
           </Box>
         </Grid>
         <GridItem item xs={12} sm={6} >
@@ -152,17 +205,7 @@ const Recipe = (props) => {
           </Typography>
           <TitleDivider/>
           <InfoList>
-            {recipe.instructions.map((instruction, i) => {
-              return (
-                <ListItem
-                  key={instruction}>
-                  <ListItemText
-                    primary= {`${i + 1}. ${instruction}`}
-
-                  />
-                </ListItem>
-              );
-            })}
+            {renderInstructions()}
           </InfoList>
         </GridItem>
       </Grid> :

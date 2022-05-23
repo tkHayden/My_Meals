@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import {Typography} from '@mui/material';
-import {LinkBox, FooterLink} from './Footer.style.js';
+import {LinkBox, FooterLink} from './Footer.style';
 import {useNavigate} from 'react-router-dom';
 
 const Footer = () => {

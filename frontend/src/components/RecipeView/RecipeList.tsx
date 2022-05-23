@@ -3,17 +3,25 @@ import {recipeCard, recipeTitle, recipeContainer} from './RecipeList.style';
 import {Box, Grid, Typography, Card,
   CardContent, CardMedia, Divider} from '@mui/material';
 import NoMealsIcon from '@mui/icons-material/NoMeals';
-
 import {useLocation, Link} from 'react-router-dom';
+import {BasicRecipe} from './Recipe.model';
 
-const RecipeList = (props) => {
+type Props = {
+  recipeList: BasicRecipe[],
+  header: string
+};
+
+
+const RecipeList = ({recipeList, header} : Props) => {
   const location = useLocation();
-  const featuredList = (recipes) => {
+  const featuredList = (recipes: BasicRecipe[]) => {
     if (recipes.length <= 0) {
       return (
         <Box sx={{...recipeContainer, width: '100%'}}>
           <NoMealsIcon color='primary' fontSize='large'/>
-          <Typography variant='h4' sx={{pl: 2, pr: 2}}> No Recipes Found</Typography>
+          <Typography variant='h4' sx={{pl: 2, pr: 2}}>
+          No Recipes Found
+          </Typography>
           <NoMealsIcon color='secondary' fontSize='large'/>
         </Box>
       );
@@ -63,11 +71,11 @@ const RecipeList = (props) => {
         sx={{width: {xs: '100%', md: '90%', xl: 1500}}}>
         <Grid item xs={12} sx={{mb: 3}}>
           <Typography variant='h3'sx={{textAlign: 'center'}}>
-            {props.header}
+            {header}
           </Typography>
           <Divider />
         </Grid>
-        {featuredList(props.recipes)}
+        {featuredList(recipeList)}
       </Grid>
     </Box>
   );

@@ -9,16 +9,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {useAuth0} from '@auth0/auth0-react';
 
 const HeaderBar = () => {
-  const {isAuthenticated, isLoading, logout, loginWithRedirect, user, getAccessTokenSilently} = useAuth0();
+  const {isAuthenticated, isLoading,
+    logout, loginWithRedirect, user, getAccessTokenSilently} = useAuth0();
   console.log(user);
 
   React.useEffect(() => {
     (async () => {
-      try {
-        const token = await getAccessTokenSilently();
-        console.log(token);
-      } catch (e) {
-        console.error(e);
+      if (user) {
+        try {
+          const token = await getAccessTokenSilently();
+          console.log(token);
+        } catch (e) {
+          console.error(e);
+        }
       }
     })();
   }, [getAccessTokenSilently]);

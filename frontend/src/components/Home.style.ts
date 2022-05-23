@@ -7,7 +7,7 @@ export const mainText = {
   maxWidth: 450,
   color: '#E28657',
   fontSize: {xs: 30, sm: 30, md: 40, lg: 45},
-  fontFamily: ('Roboto', 'sans-serif'),
+  fontFamily: ('Roboto sans-serif'),
   fontWeight: 800,
   fontStyle: 'italic',
 };

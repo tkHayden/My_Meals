@@ -3,11 +3,15 @@ import HeaderBar from './HeadBar';
 import Footer from './Footer';
 import Box from '@mui/material/Box';
 
-const Layout = (props) => {
+type Props = {
+  children: JSX.Element,
+};
+
+const Layout = ({children} : Props) => {
   return (
-    <Box sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+    <Box sx={{display: 'flex', flexDirection: 'column', height: '100%', m: -1}}>
       <HeaderBar/>
-      {props.children}
+      {children}
       <Footer/>
     </Box>
   );

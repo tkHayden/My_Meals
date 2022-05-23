@@ -38,9 +38,10 @@ const xtheme = createTheme({
 
 const App = () => {
   const location = useLocation();
-  const state = location.state;
+  const state = location.state as { backgroundLocation?: Location };
 
   return (
+
     <ThemeProvider theme={xtheme}>
       <Layout>
         <Routes location={state?.backgroundLocation || location}>
@@ -49,7 +50,7 @@ const App = () => {
             <Route index element={<FeaturedRecipes/>}/>
             <Route path='results' element={<ResultRecipes/>}/>
           </Route>
-          <Route path='/recipe/:id' element ={<Recipe/>} />
+          <Route path='/recipe/:id' element ={<Recipe children={undefined}/>} />
 
         </Routes>
       </Layout>
