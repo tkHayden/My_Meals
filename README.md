@@ -20,13 +20,6 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
@@ -62,43 +55,6 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
-<!-- GETTING STARTED -->
-## Getting Started
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-* Install [Docker](https://www.docker.com/)
-* Install [Node.js](https://nodejs.org/en/)
-
-### Installation
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/tkHayden/My_Meals.git
-   ```
-2. Build Node server and PostgreSQL images and start the containers.   <br />
-   In the root folder:
-   ```sh
-   docker compose up
-   ```
-3. Install dependencies for frontend.    <br />
-   In the frontend folder:
-   ```sh
-   npm install
-   ```
-4. Start the frontend    <br />
-   In the frontend folder:
-   ```sh
-   npm start
-   ```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
