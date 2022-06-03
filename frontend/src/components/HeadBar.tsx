@@ -34,12 +34,9 @@ const HeaderBar = () => {
 
   return (
     <Box sx={{width: '100%'}}>
-      <AppBar
-        position='static'
-        sx={{flexDirection: 'row', justifyContent: 'center'}}
-      >
+      <AppBar position='static'>
         <Toolbar
-          sx={{maxWidth: 1500, flexGrow: 1, justifyContent: 'space-between'}}
+          sx={{flexGrow: 1, justifyContent: 'space-between'}}
         >
           <IconButton
             size='large'

@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import image from '../background.png';
+import image from '../dinner.jpg';
 import foodImg from '../food.jpg';
 import groceryImg from '../GroceryList.jpeg';
 import Grid from '@mui/material/Grid';
@@ -24,21 +24,11 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <Box sx={{...HomeContainer}}>
-      <Grid container spacing={{xs: 4, sm: 1}}>
-        <Grid
-          item
-          xs={12}
-          sm={5}
-          sx={{
-            ml: 5,
-            height: {xs: 200, sm: 300, md: 350, lg: 400},
-            backgroundImage: `url(${image})`,
-            backgroundPosition: {xs: 'center', sm: 'right'},
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-          }}
-        ></Grid>
-        <Grid item xs={12} sm={6} sx={{...searchBox}}>
+      <Grid container>
+        <Grid item xs={12} sm={12} sx={{...searchBox, backgroundImage: `url(${image})`,
+          backgroundPosition: {xs: 'center'},
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat'}}>
           <Typography variant='h3' sx={{...mainText}}>
             Search For Delicious Recipes and More!
           </Typography>

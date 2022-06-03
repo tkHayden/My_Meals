@@ -10,6 +10,7 @@ export const mainText = {
   fontFamily: 'Roboto sans-serif',
   fontWeight: 800,
   fontStyle: 'italic',
+  mt: 12,
 };
 
 export const cardGrid = {
@@ -28,15 +29,11 @@ export const cardPic = {
 };
 
 export const searchBox = {
-  height: 200,
+  height: '65vh',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  mt: 9,
-  ml: {
-    lg: '-5%',
-  },
 };
 
 export const CenterTypography = styled(Typography)({
@@ -45,7 +42,7 @@ export const CenterTypography = styled(Typography)({
 
 export const HomeContainer = {
   flexGrow: 1,
-  pt: 10,
   pb: 15,
+  width: '100%',
   backgroundColor: '#F1F7F8',
 };

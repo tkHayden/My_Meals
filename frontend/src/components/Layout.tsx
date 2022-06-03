@@ -21,9 +21,7 @@ const Layout = ({children}: Props) => {
       }}
     >
       <HeaderBar />
-      <Box sx={{maxWidth: '1600px', backgroundColor: 'white'}}>
         {children}
-      </Box>
       <Footer />
     </Box>
   );
