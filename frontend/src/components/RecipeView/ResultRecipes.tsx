@@ -4,8 +4,10 @@ import RecipeList from './RecipeList';
 import CircularProgress from '@mui/material/CircularProgress';
 import {Button} from '@mui/material';
 import {BasicRecipe} from './Recipe.model';
+import ErrorMessage from '../ErrorMessage';
 
 const ResultRecipes = () => {
+  const [isError, setIsError] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [resultRecipes, setResultRecipes] = useState<BasicRecipe[] | undefined>(
       undefined,
@@ -41,6 +43,10 @@ const ResultRecipes = () => {
             console.log(data);
             setRemainingRecipes(data.remaining);
             setResultRecipes(data.results);
+          })
+          .catch((err) => {
+            console.log(err);
+            setIsError(true);
           });
     }
   }, [searchParams]);
@@ -62,6 +68,16 @@ const ResultRecipes = () => {
           setRemainingRecipes(data.remaining);
           setIsLoading(false);
         });
+  };
+
+  const displayLoading = (isError: boolean) => {
+    return (
+      <>
+        {isError ?
+             <ErrorMessage/>:
+      <CircularProgress />}
+      </>
+    );
   };
   const renderButton = (
       recipes: BasicRecipe[] | undefined,
@@ -86,10 +102,10 @@ const ResultRecipes = () => {
   };
   return (
     <>
-      {resultRecipes ? (
+      {resultRecipes && !isError ? (
         <RecipeList recipeList={resultRecipes} header={'Results'} />
       ) : (
-        <CircularProgress />
+        displayLoading(isError)
       )}
       {renderButton(resultRecipes, isLoading, remainingRecipes)}
     </>

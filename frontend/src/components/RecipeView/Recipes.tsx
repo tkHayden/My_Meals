@@ -32,6 +32,7 @@ const Recipes = () => {
       sx={{
         display: 'flex',
         flexGrow: 1,
+        minHeight: '83vh',
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
