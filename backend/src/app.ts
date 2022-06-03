@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import yaml from "js-yaml";
 import swaggerUi from "swagger-ui-express";
@@ -69,7 +69,7 @@ app.put(
   updateUsersGroceryListName
 );
 app.use(
-  (err: Error, req: Request, res: Response) => {
+  (err: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(500).json({
       message: err.message,
       status: err.status,
