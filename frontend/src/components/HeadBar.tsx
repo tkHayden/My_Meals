@@ -33,9 +33,14 @@ const HeaderBar = () => {
   }, [getAccessTokenSilently]);
 
   return (
-    <Box sx={{}}>
-      <AppBar position='static'>
-        <Toolbar>
+    <Box sx={{width: '100%'}}>
+      <AppBar
+        position='static'
+        sx={{flexDirection: 'row', justifyContent: 'center'}}
+      >
+        <Toolbar
+          sx={{maxWidth: 1500, flexGrow: 1, justifyContent: 'space-between'}}
+        >
           <IconButton
             size='large'
             edge='start'
@@ -45,7 +50,7 @@ const HeaderBar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' component='div' sx={{flexGrow: 1}}>
+          <Typography variant='h6' component='div'>
             News
           </Typography>
           {isAuthenticated || isLoading ? (

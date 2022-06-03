@@ -10,10 +10,20 @@ type Props = {
 const Layout = ({children}: Props) => {
   return (
     <Box
-      sx={{display: 'flex', flexDirection: 'column', height: '100%', m: -1}}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        height: '100%',
+        alignItems: 'center',
+        m: -1,
+        backgroundColor: 'white',
+      }}
     >
       <HeaderBar />
-      {children}
+      <Box sx={{maxWidth: '1600px', backgroundColor: 'white'}}>
+        {children}
+      </Box>
       <Footer />
     </Box>
   );

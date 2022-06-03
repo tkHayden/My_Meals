@@ -13,9 +13,10 @@ const Footer = () => {
         sx={{
           boxShadow: '-1px -1px 10px',
           background: 'linear-gradient( #7AB2B9, #E28657)',
+          width: '100%',
         }}
       >
-        <Grid container spacing={1}>
+        <Grid container spacing={1} sx={{alignItems: 'center', justifyContent: 'center'}}>
           <Grid item xs={12} sm={5}>
             <Typography
               variant='h6'
@@ -27,7 +28,7 @@ const Footer = () => {
               variant='body2'
               sx={{textAlign: 'center', color: 'white'}}
             >
-              uses the Edamam API for recipes and nutrition data.
+              uses the Spoonacular API for recipes and nutrition data.
             </Typography>
             <Typography
               variant='body2'
