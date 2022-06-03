@@ -1,8 +1,15 @@
-import { getAllGroceryLists, createGroceryList,
-  deleteGroceryList, updateGroceryListName } from '../db';
-import { Request, Response} from 'express';
+import {
+  getAllGroceryLists,
+  createGroceryList,
+  deleteGroceryList,
+  updateGroceryListName,
+} from "../db";
+import { Request, Response } from "express";
 
-export const getUsersGroceryLists = async (req: Request, res: Response): Promise<void> => {
+export const getUsersGroceryLists = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const userId = req.params.userId;
     const groceryLists = await getAllGroceryLists(userId);
@@ -16,7 +23,10 @@ export const getUsersGroceryLists = async (req: Request, res: Response): Promise
   }
 };
 
-export const addUsersNewGrocerylist = async (req: Request, res: Response): Promise<void> => {
+export const addUsersNewGrocerylist = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const userId = req.params.userId;
     const listName: string = req.body.name;
@@ -31,9 +41,12 @@ export const addUsersNewGrocerylist = async (req: Request, res: Response): Promi
   }
 };
 
-export const deleteUsersGroceryList = async (req: Request, res: Response): Promise<void> => {
+export const deleteUsersGroceryList = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
-    const {userId, listId} = req.params;
+    const { userId, listId } = req.params;
     const deletedGroceryList = await deleteGroceryList(userId, listId);
     if (deletedGroceryList) {
       res.status(200).end();
@@ -45,9 +58,12 @@ export const deleteUsersGroceryList = async (req: Request, res: Response): Promi
   }
 };
 
-export const updateUsersGroceryListName = async (req: Request, res: Response): Promise<void> => {
+export const updateUsersGroceryListName = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
-    const {userId, listId} = req.params;
+    const { userId, listId } = req.params;
     const newName = req.body.newName;
     const updatedList = await updateGroceryListName(userId, listId, newName);
     if (updatedList) {

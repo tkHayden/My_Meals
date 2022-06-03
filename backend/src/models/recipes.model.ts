@@ -1,22 +1,29 @@
 interface IObjectKeys {
-  [key: string]: string | number | IngredientsNutrients[] | Nutrients | string[] | Instructions[] | undefined
+  [key: string]:
+    | string
+    | number
+    | IngredientsNutrients[]
+    | Nutrients
+    | string[]
+    | Instructions[]
+    | undefined;
 }
 export interface RecipeInterface extends IObjectKeys {
-  id: string
-  title: string
-  image?: string
-  imageType?: string
+  id: string;
+  title: string;
+  image?: string;
+  imageType?: string;
 }
 
 export type FeatureResults = {
-  recipes: RecipeInterface[]
-}
+  recipes: RecipeInterface[];
+};
 
 export interface SearchResults {
-  results: RecipeInterface[]
-  offset: number
-  number: number
-  totalResults: number
+  results: RecipeInterface[];
+  offset: number;
+  number: number;
+  totalResults: number;
 }
 
 interface SpoonacularBasicRecipe extends RecipeInterface {
@@ -24,7 +31,6 @@ interface SpoonacularBasicRecipe extends RecipeInterface {
   readyInMinutes: number;
   servings: number;
   nutrition: Nutrients;
-
 }
 export interface SpoonacularRecipe extends SpoonacularBasicRecipe {
   cuisines: string[];
@@ -33,17 +39,16 @@ export interface SpoonacularRecipe extends SpoonacularBasicRecipe {
 }
 
 type Nutrients = {
-  nutrients: IngredientsNutrients[]
-}
+  nutrients: IngredientsNutrients[];
+};
 
 type Instructions = {
-  steps: InstructionStep[]
-}
+  steps: InstructionStep[];
+};
 type InstructionStep = {
-  number: number
-  step: string
-}
-
+  number: number;
+  step: string;
+};
 
 export interface IngredientsNutrients {
   name: string;
@@ -53,7 +58,7 @@ export interface IngredientsNutrients {
 }
 
 export interface RecipeResult extends SpoonacularBasicRecipe {
-  cuisines: string
-  diets: string
-  instructions: string[]
+  cuisines: string;
+  diets: string;
+  instructions: string[];
 }
