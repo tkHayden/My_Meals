@@ -317,8 +317,6 @@ components:
                 type: number
               unit:
                 type: string
-              meta:
-                type: string
         cuisines:
           type: string
         diets:
@@ -341,7 +339,7 @@ components:
           type: string
         listName:
           type: string
-    AnyValue: {}
+    AnyValues: {}
   securitySchemes:
     bearerAuth:
       type: http
