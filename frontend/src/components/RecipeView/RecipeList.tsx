@@ -77,7 +77,7 @@ const RecipeList = ({recipeList, header}: Props) => {
       <Grid
         container
         spacing={1}
-        sx={{width: {xs: '100%', md: '90%', xl: 1500}}}
+        sx={{width: {xs: '100%'}}}
       >
         <Grid item xs={12} sx={{mb: 3}}>
           <Typography variant='h3' sx={{textAlign: 'center'}}>
