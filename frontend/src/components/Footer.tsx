@@ -9,50 +9,67 @@ const Footer = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Box sx={{
-        boxShadow: '-1px -1px 10px',
-        background: 'linear-gradient( #7AB2B9, #E28657)'}}>
-        <Grid container spacing={1} >
-          <Grid item xs={12} sm={5} >
-            <Typography variant='h6'sx={{textAlign: 'center', color: 'white'}}>
-                My Meals
+      <Box
+        sx={{
+          boxShadow: '-1px -1px 10px',
+          background: 'linear-gradient( #7AB2B9, #E28657)',
+        }}
+      >
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={5}>
+            <Typography
+              variant='h6'
+              sx={{textAlign: 'center', color: 'white'}}
+            >
+              My Meals
             </Typography>
-            <Typography variant = 'body2'
-              sx={{textAlign: 'center', color: 'white'}}>
+            <Typography
+              variant='body2'
+              sx={{textAlign: 'center', color: 'white'}}
+            >
               uses the Edamam API for recipes and nutrition data.
             </Typography>
-            <Typography variant = 'body2'
-              sx={{textAlign: 'center', color: 'white'}}>
-            &#169; 2022 by Tyler Hayden
+            <Typography
+              variant='body2'
+              sx={{textAlign: 'center', color: 'white'}}
+            >
+              &#169; 2022 by Tyler Hayden
             </Typography>
           </Grid>
           <Grid item xs={12} sm={5}>
-            <Typography variant='h6'
-              component="div"
-              sx={{textAlign: 'center', color: 'white'}}>
-                My Meals
+            <Typography
+              variant='h6'
+              component='div'
+              sx={{textAlign: 'center', color: 'white'}}
+            >
+              My Meals
             </Typography>
             <LinkBox>
-              <FooterLink variant='subtitle2'
+              <FooterLink
+                variant='subtitle2'
                 sx={{textAlign: 'center', color: 'white'}}
-                underline="hover"
-                onClick= {() => navigate('/')}>
+                underline='hover'
+                onClick={() => navigate('/')}
+              >
                 Home
               </FooterLink>
             </LinkBox>
             <LinkBox>
-              <FooterLink variant='subtitle2'
+              <FooterLink
+                variant='subtitle2'
                 sx={{textAlign: 'center', color: 'white'}}
-                underline="hover"
-                onClick = {() => navigate('/recipes')}>
-
+                underline='hover'
+                onClick={() => navigate('/recipes')}
+              >
                 All Recipes
               </FooterLink>
             </LinkBox>
             <LinkBox>
-              <FooterLink variant='subtitle2'
+              <FooterLink
+                variant='subtitle2'
                 sx={{textAlign: 'center', color: 'white'}}
-                underline="hover">
+                underline='hover'
+              >
                 My Grocery Lists
               </FooterLink>
             </LinkBox>

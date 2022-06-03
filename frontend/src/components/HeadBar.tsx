@@ -9,8 +9,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {useAuth0} from '@auth0/auth0-react';
 
 const HeaderBar = () => {
-  const {isAuthenticated, isLoading,
-    logout, loginWithRedirect, user, getAccessTokenSilently} = useAuth0();
+  const {
+    isAuthenticated,
+    isLoading,
+    logout,
+    loginWithRedirect,
+    user,
+    getAccessTokenSilently,
+  } = useAuth0();
   console.log(user);
 
   React.useEffect(() => {
@@ -26,38 +32,41 @@ const HeaderBar = () => {
     })();
   }, [getAccessTokenSilently]);
 
-
   return (
     <Box sx={{}}>
-      <AppBar position="static">
+      <AppBar position='static'>
         <Toolbar>
           <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
+            size='large'
+            edge='start'
+            color='inherit'
+            aria-label='menu'
             sx={{mr: 2}}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+          <Typography variant='h6' component='div' sx={{flexGrow: 1}}>
             News
           </Typography>
-          {isAuthenticated || isLoading ?
-           <Button
-             variant="contained"
-             color='secondary'
-             size='small'
-             onClick={() => logout({returnTo: window.location.origin})}>
-               Logout
-           </Button> :
+          {isAuthenticated || isLoading ? (
             <Button
-              variant="contained"
+              variant='contained'
               color='secondary'
               size='small'
-              onClick={() => loginWithRedirect()}>
-                Login
-            </Button>}
+              onClick={() => logout({returnTo: window.location.origin})}
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button
+              variant='contained'
+              color='secondary'
+              size='small'
+              onClick={() => loginWithRedirect()}
+            >
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

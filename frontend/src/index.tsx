@@ -5,8 +5,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {Auth0Provider} from '@auth0/auth0-react';
 import reportWebVitals from './reportWebVitals';
 
-
-const domain= process.env.REACT_APP_AUTH0_DOMAIN as string;
+const domain = process.env.REACT_APP_AUTH0_DOMAIN as string;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID as string;
 const audience = process.env.REACT_APP_AUDIENCE as string;
 console.log(domain);
@@ -16,16 +15,15 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
       <Auth0Provider
-        domain= {domain}
-        clientId= {clientId}
+        domain={domain}
+        clientId={clientId}
         redirectUri={window.location.origin}
         audience={audience}
       >
         <BrowserRouter>
           <Routes>
-            <Route path="/*" element={<App/>} />
+            <Route path="/*" element={<App />} />
           </Routes>
-
         </BrowserRouter>
       </Auth0Provider>
     </React.StrictMode>,

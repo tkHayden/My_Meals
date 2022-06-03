@@ -41,27 +41,24 @@ const App = () => {
   const state = location.state as { backgroundLocation?: Location };
 
   return (
-
     <ThemeProvider theme={xtheme}>
       <Layout>
         <Routes location={state?.backgroundLocation || location}>
-          <Route path="/" element={<Home />}/>
+          <Route path="/" element={<Home />} />
           <Route path="recipes" element={<Recipes />}>
-            <Route index element={<FeaturedRecipes/>}/>
-            <Route path='results' element={<ResultRecipes/>}/>
+            <Route index element={<FeaturedRecipes />} />
+            <Route path="results" element={<ResultRecipes />} />
           </Route>
-          <Route path='/recipe/:id' element ={<Recipe children={undefined}/>} />
-
+          <Route path="/recipe/:id" element={<Recipe children={undefined} />} />
         </Routes>
       </Layout>
       {/* Show the modal when a `backgroundLocation` is set */}
       {state?.backgroundLocation && (
         <Routes>
-          <Route path="/recipe/:id" element={<RecipeModal/>} />
+          <Route path="/recipe/:id" element={<RecipeModal />} />
         </Routes>
       )}
     </ThemeProvider>
-
   );
 };
 

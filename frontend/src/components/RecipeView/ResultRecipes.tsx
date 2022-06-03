@@ -7,7 +7,9 @@ import {BasicRecipe} from './Recipe.model';
 
 const ResultRecipes = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [resultRecipes, setResultRecipes] = useState<BasicRecipe[] |undefined>(undefined);
+  const [resultRecipes, setResultRecipes] = useState<BasicRecipe[] | undefined>(
+      undefined,
+  );
   const [offsetSearch, setOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [remainingRecipes, setRemainingRecipes] = useState(0);
@@ -46,7 +48,7 @@ const ResultRecipes = () => {
   const loadMore = () => {
     setIsLoading(true);
     const offset = offsetSearch + 20;
-    setOffset(offset );
+    setOffset(offset);
     const queryString = getQueryString(offset);
     fetch(`http://localhost:3010/v0/recipes?${queryString}`)
         .then((response) => response.json())
@@ -54,31 +56,41 @@ const ResultRecipes = () => {
           console.log(data);
           if (resultRecipes) {
             setResultRecipes((currRecipes) =>
-            currRecipes ? [...currRecipes, ...data.results] : [...data.results]);
+            currRecipes ? [...currRecipes, ...data.results] : [...data.results],
+            );
           }
           setRemainingRecipes(data.remaining);
           setIsLoading(false);
         });
   };
-  const renderButton = (recipes:BasicRecipe[] |undefined, isLoading: boolean, remainingRecipes: number) => {
+  const renderButton = (
+      recipes: BasicRecipe[] | undefined,
+      isLoading: boolean,
+      remainingRecipes: number,
+  ) => {
     console.log(remainingRecipes);
     if (recipes && remainingRecipes > 0) {
       return (
-        <Button variant="contained"
-          size="large"
-          color= 'primary'
-          onClick={() => loadMore()}>
-          {isLoading ? 'Loading...' :
-           `Load more results (${remainingRecipes} more)`}
+        <Button
+          variant='contained'
+          size='large'
+          color='primary'
+          onClick={() => loadMore()}
+        >
+          {isLoading ?
+            'Loading...' :
+            `Load more results (${remainingRecipes} more)`}
         </Button>
       );
     }
   };
   return (
     <>
-      {resultRecipes ?
-       <RecipeList recipeList={resultRecipes} header={'Results'}/> :
-       <CircularProgress />}
+      {resultRecipes ? (
+        <RecipeList recipeList={resultRecipes} header={'Results'} />
+      ) : (
+        <CircularProgress />
+      )}
       {renderButton(resultRecipes, isLoading, remainingRecipes)}
     </>
   );
