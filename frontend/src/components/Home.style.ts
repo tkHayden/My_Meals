@@ -1,5 +1,6 @@
 import {styled} from '@mui/system';
 import Typography from '@mui/material/Typography';
+import {Button} from '@mui/material';
 
 export const mainText = {
   textAlign: 'center',
@@ -10,7 +11,7 @@ export const mainText = {
   fontFamily: 'Roboto sans-serif',
   fontWeight: 800,
   fontStyle: 'italic',
-  mt: {xs: 1, md: 8},
+  mt: {xs: 8, md: 14},
 };
 
 export const cardGrid = {
@@ -30,7 +31,7 @@ export const cardPic = {
 
 export const searchBox = {
   maxWidth: '100%',
-  height: '67vh',
+  height: {xs: '50vh', md: '65vh', lg: '73vh'},
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -48,3 +49,8 @@ export const HomeContainer = {
   width: '100%',
   backgroundColor: '#F1F7F8',
 };
+
+export const HeaderTextButton = styled(Button)({
+  'textTransform': 'none',
+  '&:hover': {color: '#E28657'},
+});
