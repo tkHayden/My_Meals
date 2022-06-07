@@ -8,9 +8,11 @@
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/jest": "^28.1.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.34",
     "@types/pg": "^8.6.5",
+    "@types/supertest": "^2.0.12",
     "@types/swagger-ui-express": "^4.1.3",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
@@ -20,6 +22,7 @@
     "nodemailer-mock": "^1.5.11",
     "nodemon": "*",
     "supertest": "*",
+    "ts-jest": "^28.0.4",
     "ts-node": "^10.7.0"
   },
   "dependencies": {
@@ -40,10 +43,10 @@
     "typescript": "^4.6.4"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
-      "!src/server.js"
-    ],
+    "preset": "ts-jest",
+    "coverageProvider": "v8",
+    "testEnvironment": "node",
+    "setupFiles": ["dotenv/config"],
     "testMatch": [
       "**/?(*.)+(spec|test).[jt]s?(x)"
     ]
@@ -66,7 +69,7 @@
     "dev": "nodemon -L src/server.ts",
     "start": "ts-node src/server.js",
     "test": "jest --runInBand --coverage --verbose --forceExit",
-    "lint": "eslint . --ext .ts", 
+    "lint": "eslint . --ext .ts",
     "build": "tsc -p",
     "clean": "tsc --build --clean"
   }
