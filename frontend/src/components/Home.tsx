@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import image from '../dinner.jpg';
 import foodImg from '../food.jpg';
+import smallerImg from '../smallerBG.jpg';
 import groceryImg from '../GroceryList.jpeg';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -25,10 +26,18 @@ const Home = () => {
   return (
     <Box sx={{...HomeContainer}}>
       <Grid container>
-        <Grid item xs={12} sm={12} sx={{...searchBox, backgroundImage: `url(${image})`,
-          backgroundPosition: {xs: 'center'},
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'}}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          sx={{
+            ...searchBox,
+            backgroundImage: {xs: `url(${smallerImg})`, md: `url(${image})`},
+            backgroundPosition: {xs: 'center'},
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
           <Typography variant='h3' sx={{...mainText}}>
             Search For Delicious Recipes and More!
           </Typography>
@@ -43,7 +52,7 @@ const Home = () => {
             variant='contained'
             size='large'
             color='primary'
-            sx={{width: 200, fontFamily: 'Roboto', mt: 3, mb: 5}}
+            sx={{width: 200, fontFamily: 'Roboto', mt: 3}}
             onClick={() => navigate('/recipes')}
           >
             Search Recipes
