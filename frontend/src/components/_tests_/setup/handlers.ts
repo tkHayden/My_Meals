@@ -1,5 +1,5 @@
 import {rest} from 'msw';
-import response from './mockResponses.json';
+import response from '../mockResponses.json';
 
 const baseUrl = 'http://localhost:3010/v0/';
 

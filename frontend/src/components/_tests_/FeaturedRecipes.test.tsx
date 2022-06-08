@@ -1,6 +1,6 @@
-import {mswServer} from './mockHttpServer';
+import {mswServer} from './setup/mockHttpServer';
 import '@testing-library/jest-dom';
-import * as handler from './handlers';
+import * as handler from './setup/handlers';
 import FeaturedRecipes from '../RecipeView/FeaturedRecipes';
 import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import mockData from './mockResponses.json';
