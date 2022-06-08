@@ -12,10 +12,8 @@ const Layout = ({children}: Props) => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'center',
         flexDirection: 'column',
         height: '100%',
-        alignItems: 'center',
         m: -1,
         backgroundColor: 'white',
       }}

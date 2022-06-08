@@ -8,15 +8,17 @@ import InputBase from '@mui/material/InputBase';
 import {Outlet} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
 import {keyframes} from '@mui/system';
+import {useSearchUpdate} from '../Provider/SearchProvider';
 
 const Recipes = () => {
   const [searchValue, setSearchValue] = useState('');
+  const updateQuery = useSearchUpdate();
   const navigate = useNavigate();
   const onSearch = () => {
     console.log(searchValue);
+    updateQuery(searchValue);
     navigate({
       pathname: 'results',
-      search: `?search=${searchValue}`,
     });
   };
   const spin = keyframes`

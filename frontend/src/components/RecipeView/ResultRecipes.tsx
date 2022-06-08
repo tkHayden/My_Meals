@@ -5,6 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import {Button} from '@mui/material';
 import {BasicRecipe} from './Recipe.model';
 import ErrorMessage from '../ErrorMessage';
+import {useSearch} from '../Provider/SearchProvider';
 
 const ResultRecipes = () => {
   const [isError, setIsError] = useState(false);
@@ -15,15 +16,16 @@ const ResultRecipes = () => {
   const [offsetSearch, setOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [remainingRecipes, setRemainingRecipes] = useState(0);
+  const searchQuery = useSearch();
 
   // useEffect(() => {
   //   console.log(searchParams.get('search'));
-  //   setSearchParams({search: searchParams.get('search')});
+  //   setSearchParams({search: getQueryString(0)});
   // // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
 
   const getQueryString = (offset: number) => {
-    const searchQuery = searchParams.get('search');
+    setSearchParams({search: searchQuery});
     const queryString = new URLSearchParams({
       search: searchQuery ? searchQuery : '',
       offset: `${offset}`,
@@ -34,22 +36,19 @@ const ResultRecipes = () => {
   useEffect(() => {
     // only fetch if search query is set. This keeps the background
     // state (resultRecipes) intact when RecipeModal is opened
-    if (searchParams.get('search')) {
-      setResultRecipes(undefined);
-      const queryString = getQueryString(0);
-      fetch(`http://localhost:3010/v0/recipes?${queryString}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            setRemainingRecipes(data.remaining);
-            setResultRecipes(data.results);
-          })
-          .catch((err) => {
-            console.log(err);
-            setIsError(true);
-          });
-    }
-  }, [searchParams]);
+    setResultRecipes(undefined);
+    const queryString = getQueryString(0);
+    fetch(`http://localhost:3010/v0/recipes?${queryString}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setRemainingRecipes(data.remaining);
+          setResultRecipes(data.results);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsError(true);
+        });
+  }, [searchQuery]);
 
   const loadMore = () => {
     setIsLoading(true);
