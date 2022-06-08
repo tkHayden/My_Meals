@@ -20,7 +20,7 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#development">Development</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -59,11 +59,21 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Development
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Homepage (Desktop | Tablet | Mobile)
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+<div>
+  <img src="https://raw.githubusercontent.com/tkHayden/MealsScreenShots/master/homepage.png" width="450" height= "450">
+  <img src="https://raw.githubusercontent.com/tkHayden/MealsScreenShots/master/tablet.png" width="350" height= "450">
+  <img src="https://raw.githubusercontent.com/tkHayden/MealsScreenShots/master/mobile.png"  height= "450">
+</div>
+
+
+
+### Search Page
+<img src="https://github.com/tkHayden/MealsScreenShots/blob/master/ezgif.com-gif-maker.gif?raw=true"  />
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
