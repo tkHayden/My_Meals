@@ -18,12 +18,8 @@ const ResultRecipes = () => {
   const [remainingRecipes, setRemainingRecipes] = useState(0);
   const searchQuery = useSearch();
 
-  // useEffect(() => {
-  //   console.log(searchParams.get('search'));
-  //   setSearchParams({search: getQueryString(0)});
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
+  // Sets search params in the url and
+  // creates query string for the fetch api calls
   const getQueryString = (offset: number) => {
     setSearchParams({search: searchQuery});
     const queryString = new URLSearchParams({
@@ -33,9 +29,10 @@ const ResultRecipes = () => {
     return queryString;
   };
 
+  // useEffect call is dependent on the change of searchQuery. This makes
+  // it so when a user clicks on individual recipe then clicks back to results
+  // it doesnt call the fetch from the api again
   useEffect(() => {
-    // only fetch if search query is set. This keeps the background
-    // state (resultRecipes) intact when RecipeModal is opened
     setResultRecipes(undefined);
     const queryString = getQueryString(0);
     fetch(`http://localhost:3010/v0/recipes?${queryString}`)
@@ -70,13 +67,7 @@ const ResultRecipes = () => {
   };
 
   const displayLoading = (isError: boolean) => {
-    return (
-      <>
-        {isError ?
-             <ErrorMessage/>:
-      <CircularProgress />}
-      </>
-    );
+    return <>{isError ? <ErrorMessage /> : <CircularProgress />}</>;
   };
   const renderButton = (
       recipes: BasicRecipe[] | undefined,
