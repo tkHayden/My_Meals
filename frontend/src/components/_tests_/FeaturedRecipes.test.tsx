@@ -2,7 +2,7 @@ import {mswServer} from './setup/mockHttpServer';
 import '@testing-library/jest-dom';
 import * as handler from './setup/handlers';
 import FeaturedRecipes from '../RecipeView/FeaturedRecipes';
-import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import mockData from './mockResponses.json';
 import {Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
@@ -18,19 +18,19 @@ const mockUseLocationValue = {
 };
 const history = createMemoryHistory();
 jest.mock('react-router', () => ({
-  ...jest.requireActual('react-router') as {},
+  ...(jest.requireActual('react-router') as {}),
   useLocation: jest.fn().mockImplementation(() => {
     return mockUseLocationValue;
   }),
 }));
 
-
 describe('Displaying Featured Recipes from API fetch', () => {
   test('Check title of Recipes with 45 or less characters', async () => {
     mswServer.use(handler.fetchFeaturedRecipes);
-    render(<Router location={history.location} navigator={history}>
-      <FeaturedRecipes />
-    </Router>,
+    render(
+        <Router location={history.location} navigator={history}>
+          <FeaturedRecipes />
+        </Router>,
     );
     for (const data of mockData.featured) {
       if (data.title.length <= 45) {
@@ -40,9 +40,10 @@ describe('Displaying Featured Recipes from API fetch', () => {
   });
   test('Check title of Recipe with more than 45 characters have proper format', async () => {
     mswServer.use(handler.fetchFeaturedRecipes);
-    render(<Router location={history.location} navigator={history}>
-      <FeaturedRecipes />
-    </Router>,
+    render(
+        <Router location={history.location} navigator={history}>
+          <FeaturedRecipes />
+        </Router>,
     );
     for (const data of mockData.featured) {
       if (data.title.length > 45) {
@@ -52,9 +53,10 @@ describe('Displaying Featured Recipes from API fetch', () => {
   });
   test('Check pictures for all recipes', async () => {
     mswServer.use(handler.fetchFeaturedRecipes);
-    render(<Router location={history.location} navigator={history}>
-      <FeaturedRecipes />
-    </Router>,
+    render(
+        <Router location={history.location} navigator={history}>
+          <FeaturedRecipes />
+        </Router>,
     );
     for (const data of mockData.featured) {
       const img = await screen.findByAltText(`picture of ${data.title}`);
@@ -68,6 +70,8 @@ describe('Displaying Errors from Featured Recipes API fetch', () => {
     mswServer.use(handler.fetchFeaturedRecipesNetworkError);
     render(<FeaturedRecipes />);
     await screen.findByText('Error');
-    await screen.findByText('Unable to connect to the server at this time. Please try again later!');
+    await screen.findByText(
+        'Unable to connect to the server at this time. Please try again later!',
+    );
   });
 });
