@@ -85,7 +85,6 @@ export const getRecipe = async (req: Request, res: Response) => {
       `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${apiKey}`
     );
     if (recipeResult.status == 200) {
-      console.log(recipeResult.data)
       const recipe = filterRecipe(recipeResult.data);
       res.status(200).json(recipe);
     } else {
