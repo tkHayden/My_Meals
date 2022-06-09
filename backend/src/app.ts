@@ -17,7 +17,7 @@ import {
   addUsersNewGrocerylist,
   deleteUsersGroceryList,
   updateUsersGroceryListName,
-} from "./controllers/grocerylist";
+} from "./controllers/groceryList";
 
 export const app = express();
 app.use(cors());
