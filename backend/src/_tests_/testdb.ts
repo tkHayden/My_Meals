@@ -14,6 +14,7 @@ const pool = new Pool({
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
 });
+
 const run = async (file: string) => {
   const content = fs.readFileSync(file, 'utf8');
   const statements = content.split(';');
