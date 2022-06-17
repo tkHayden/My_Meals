@@ -15,11 +15,20 @@ const Layout = ({children}: Props) => {
         flexDirection: 'column',
         height: '100%',
         m: -1,
-        backgroundColor: 'white',
+        backgroundColor: '#F1F7F8',
       }}
     >
       <HeaderBar />
+      <Box
+        sx={{
+          mb: 11,
+          ml: 2,
+          mr: 2,
+          minHeight: {xs: 100, sm: 400, md: 600, lg: 800},
+        }}
+      >
         {children}
+      </Box>
       <Footer />
     </Box>
   );
