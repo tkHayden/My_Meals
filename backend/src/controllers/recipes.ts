@@ -4,15 +4,22 @@ import { CacheContainer } from "node-ts-cache";
 import { MemoryStorage } from "node-ts-cache-storage-memory";
 import { Request, Response } from "express";
 import {
-  SpoonacularRecipe,
+  BasicRecipe,
+  SpoonacularRecipes,
   IngredientsNutrients,
-  RecipeInterface,
-  FeatureResults,
-  RecipeResult,
-  SearchResults,
+  DetailedRecipe,
+  SpoonacularResponse,
+  Instructions,
 } from "../models/recipes.model";
-const myCache = new CacheContainer(new MemoryStorage());
 
+type SearchResults = {
+  results: BasicRecipe[];
+  offset: number;
+  number: number;
+  totalResults: number;
+};
+
+const myCache = new CacheContainer(new MemoryStorage());
 const spoonacular = "https://api.spoonacular.com/recipes/complexSearch";
 const apiKey = process.env.SPOONACULAR_API_KEY;
 
@@ -46,27 +53,18 @@ export const getFeaturedRecipes = async (
   res: Response
 ): Promise<void> => {
   try {
-    const cachedRecipes = await myCache.getItem<RecipeInterface[]>(
+    const cachedRecipes = await myCache.getItem<SpoonacularRecipes[]>(
       "featured_recipes"
     );
     if (cachedRecipes) {
       console.log("cached");
       res.status(200).json(cachedRecipes);
     } else {
-      const featureResponse = await axios.get<FeatureResults>(
+      const featureResponse = await axios.get<SpoonacularResponse>(
         `https://api.spoonacular.com/recipes/random?number=20&apiKey=${apiKey}`
       );
       const filteredRecipes = featureResponse.data.recipes.map((recipe) => {
-        const obj: RecipeInterface = {
-          id: "",
-          title: "",
-          image: "",
-          imageType: "",
-        };
-        for (const key of Object.keys(obj)) {
-          obj[key] = recipe[key];
-        }
-        return obj;
+        return createBasicRecipe(recipe);
       });
       myCache.setItem("featured_recipes", filteredRecipes, { ttl: 3600 });
       res.status(200).json(filteredRecipes);
@@ -81,11 +79,12 @@ export const getRecipe = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
 
-    const recipeResult = await axios.get<SpoonacularRecipe>(
+    const recipeResult = await axios.get<SpoonacularRecipes>(
       `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${apiKey}`
     );
     if (recipeResult.status == 200) {
-      const recipe = filterRecipe(recipeResult.data);
+      const spoonacularRecipes = recipeResult.data as SpoonacularRecipes;
+      const recipe = createDetailedRecipe(spoonacularRecipes);
       res.status(200).json(recipe);
     } else {
       res.status(404).end();
@@ -96,37 +95,54 @@ export const getRecipe = async (req: Request, res: Response) => {
   }
 };
 
-const filterRecipe = (recipe: SpoonacularRecipe): RecipeResult => {
-  const keys = ["id", "title", "readyInMinutes", "servings", "image"];
-  const newRecipeObj = {} as RecipeResult;
-  for (const key of keys) {
-    newRecipeObj[key] = recipe[key];
-  }
-  newRecipeObj.instructions = [];
-  // Changing cuisines/diets from an array to string of concanated values to make it easier to display on the frontend
-  newRecipeObj.cuisines = recipe.cuisines.join(" , ");
-  newRecipeObj.diets = recipe.diets.join(" , ");
-  if (recipe.analyzedInstructions.length > 0) {
-    for (const instruction of recipe.analyzedInstructions[0].steps) {
-      newRecipeObj.instructions.push(instruction.step);
-    }
-  }
-  newRecipeObj.ingredients = grabMoreInfo(recipe.extendedIngredients);
-  newRecipeObj.nutrients = grabMoreInfo(recipe.nutrition.nutrients);
-
-  return newRecipeObj;
+const createDetailedRecipe = (recipe: SpoonacularRecipes): DetailedRecipe => {
+  return {
+    readyInMinutes: recipe.readyInMinutes,
+    servings: recipe.servings,
+    cuisines: recipe.cuisines.join(" , "),
+    diets: recipe.diets.join(" , "),
+    instructions: extractInstructions(recipe.analyzedInstructions),
+    ingredients: extractIngredientsAndNutrients(recipe.extendedIngredients),
+    nutrients: extractIngredientsAndNutrients(recipe.nutrition.nutrients),
+    ...createBasicRecipe(recipe),
+  };
 };
 
-// Extracts appropriate properties from Ingredients or Nutrients obj from spoonacular's recipe obj response
-const grabMoreInfo = (obj: IngredientsNutrients[]): IngredientsNutrients[] => {
+const extractInstructions = (
+  spoonacularInstructions: Instructions[]
+): string[] => {
+  const instructions: string[] = [];
+  if (spoonacularInstructions.length > 0) {
+    for (const instruction of spoonacularInstructions[0].steps) {
+      instructions.push(instruction.step);
+    }
+  }
+  return instructions;
+};
+
+// Extracts appropriate properties from Ingredients or Nutrients obj
+// from spoonacular's recipe obj response
+export const extractIngredientsAndNutrients = (
+  obj: IngredientsNutrients[]
+): IngredientsNutrients[] => {
   const arr: IngredientsNutrients[] = [];
   for (const item of obj) {
-    const tempObj = {} as IngredientsNutrients;
-    tempObj["name"] = item.name;
-    tempObj["amount"] = Math.ceil(item.amount);
-    tempObj["unit"] = item.unit;
-    // Grab meta property only if we passed in the ingredient obj
-    arr.push(tempObj);
+    arr.push({
+      name: item.name,
+      amount: Math.ceil(item.amount),
+      unit: item.unit,
+    });
   }
   return arr;
+};
+//Creates Recipe object with basic info. These recipe objects populate the
+//search and feature responses
+export const createBasicRecipe = (
+  spoonacularRecipe: SpoonacularRecipes
+): BasicRecipe => {
+  return {
+    id: spoonacularRecipe.id,
+    title: spoonacularRecipe.title,
+    image: spoonacularRecipe.image,
+  };
 };

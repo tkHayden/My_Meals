@@ -3,13 +3,23 @@ import {
   createGroceryList,
   deleteGroceryList,
   updateGroceryListName,
+  selectUserGroceryList,
 } from "../db";
 import { Request, Response } from "express";
+import axios from "axios";
+import { BasicRecipe, SpoonacularRecipes, IngredientsNutrients } from "../models/recipes.model";
+ import { createBasicRecipe, extractIngredientsAndNutrients } from "./recipes";
 
 const dbErrors = Object.freeze({
   Duplicate: "23505",
   Invalid: "22P02",
 });
+
+interface GroceryListRecipe extends BasicRecipe{
+  ingredients: IngredientsNutrients[]
+}
+
+const apiKey = process.env.SPOONACULAR_API_KEY;
 
 export const getUsersGroceryLists = async (
   req: Request,
@@ -28,6 +38,29 @@ export const getUsersGroceryLists = async (
   }
 };
 
+export const getUsersGroceryList = async (req: Request, res: Response): Promise<void> => {
+  try{
+    const {userId, groceryListId}  = req.params;
+    const groceryListRecipes = await selectUserGroceryList(userId, groceryListId);
+    if (Array.isArray(groceryListRecipes) && groceryListRecipes.length > 0) {
+      // Create string of recipe ids for spoonacular request
+      const recipeIds = groceryListRecipes.map(recipe => recipe['recipe_id']).join(',');
+      const recipeResult = await axios.get<SpoonacularRecipes[]> (`https://api.spoonacular.com/recipes/informationBulk?apiKey=${apiKey}&ids=${recipeIds}`);
+      if (recipeResult.status == 200) {
+        const arr = [] as GroceryListRecipe[]
+        for (const recipe of recipeResult.data) {
+          arr.push({
+            ...createBasicRecipe(recipe),
+            ingredients: extractIngredientsAndNutrients(recipe.extendedIngredients)
+          })
+        }
+        res.status(200).json(arr);
+      }
+    }
+  } catch (error) {
+    res.status(500).end()
+  }
+}
 
 export const addUsersNewGrocerylist = async (
   req: Request,
