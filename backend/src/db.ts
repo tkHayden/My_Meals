@@ -15,6 +15,11 @@ interface GroceryListInterface {
   user_id: string;
 }
 
+interface GroceryListRecipe {
+  recipe_id: number;
+  quantity: number;
+}
+
 export const getAllGroceryLists = async (
   userId: string
 ): Promise<GroceryListInterface[] | string> => {
@@ -25,6 +30,28 @@ export const getAllGroceryLists = async (
       values: [userId],
     };
     const { rows } = await pool.query<GroceryListInterface>(query);
+    return rows;
+  } catch (error) {
+    console.log(error);
+    const e = error as PostgreSqlError;
+    return e.code;
+  }
+};
+
+export const selectUserGroceryList = async (
+  userId: string,
+  groceryListId: string
+): Promise<GroceryListRecipe[] | string> => {
+  try {
+    const select =
+      "SELECT grocery_recipe.recipe_id, grocery_recipe.quantity FROM grocery_recipe " +
+      "INNER JOIN grocery_list ON grocery_recipe.grocery_list_id = grocery_list.id " +
+      "WHERE grocery_list.id = $1 AND grocery_list.user_id = $2 ";
+    const query = {
+      text: select,
+      values: [groceryListId, userId],
+    };
+    const { rows } = await pool.query<GroceryListRecipe>(query);
     return rows;
   } catch (error) {
     console.log(error);
@@ -98,3 +125,6 @@ export const updateGroceryListName = async (
     return e.code;
   }
 };
+
+
+
