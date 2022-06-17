@@ -1,48 +1,12 @@
-interface IObjectKeys {
-  [key: string]:
-    | string
-    | number
-    | IngredientsNutrients[]
-    | Nutrients
-    | string[]
-    | Instructions[]
-    | undefined;
-}
-export interface RecipeInterface extends IObjectKeys {
-  id: string;
-  title: string;
-  image?: string;
-  imageType?: string;
-}
-
-export type FeatureResults = {
-  recipes: RecipeInterface[];
+type Keys<Type> = {
+  [Property in keyof Type]-?: Type[Property];
 };
-
-export interface SearchResults {
-  results: RecipeInterface[];
-  offset: number;
-  number: number;
-  totalResults: number;
-}
-
-interface SpoonacularBasicRecipe extends RecipeInterface {
-  extendedIngredients: IngredientsNutrients[];
-  readyInMinutes: number;
-  servings: number;
-  nutrition: Nutrients;
-}
-export interface SpoonacularRecipe extends SpoonacularBasicRecipe {
-  cuisines: string[];
-  diets: string[];
-  analyzedInstructions: Instructions[];
-}
 
 type Nutrients = {
   nutrients: IngredientsNutrients[];
 };
 
-type Instructions = {
+export type Instructions = {
   steps: InstructionStep[];
 };
 type InstructionStep = {
@@ -50,15 +14,43 @@ type InstructionStep = {
   step: string;
 };
 
+interface BasicRecipeInterface {
+  id: string;
+  title: string;
+  image: string;
+
+}
+
 export interface IngredientsNutrients {
   name: string;
   amount: number;
   unit: string;
-  meta: string[];
+}
+interface SpoonacularRecipeInterface extends BasicRecipeInterface {
+  analyzedInstructions: Instructions[];
+  extendedIngredients: IngredientsNutrients[];
+  cuisines: string[];
+  diets: string[];
+  nutrition: Nutrients;
+  readyInMinutes: number;
+  servings: number;
 }
 
-export interface RecipeResult extends SpoonacularBasicRecipe {
+interface DetailedRecipeInterface extends BasicRecipeInterface {
+  readyInMinutes: number;
+  servings: number;
+  ingredients: IngredientsNutrients[];
   cuisines: string;
   diets: string;
+  nutrients: IngredientsNutrients[];
   instructions: string[];
+ }
+
+type SpoonaculatResponseInterface = {
+  recipes: SpoonacularRecipeInterface []
+
 }
+export type BasicRecipe = Keys<BasicRecipeInterface>;
+export type SpoonacularResponse = Keys<SpoonaculatResponseInterface>;
+export type DetailedRecipe = Keys<DetailedRecipeInterface>;
+export type SpoonacularRecipes = Keys<SpoonacularRecipeInterface>;
