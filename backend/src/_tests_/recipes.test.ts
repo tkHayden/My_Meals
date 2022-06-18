@@ -1,23 +1,31 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable @typescript-eslint/no-var-requires */
 const testRecipes = require("./recipeTestData.json");
+const mockSearchRecipes = require('./mockSearchResponse.json');
 import supertest from "supertest";
 import http from "http";
 import { app } from "../app";
 import axios from "axios";
-import { getRecipe } from "../controllers/recipes";
 import { IngredientsNutrients } from "../models/recipes.model";
 let server: http.Server;
 let request: supertest.SuperTest<supertest.Test>;
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const apiKey = process.env.SPOONACULAR_API_KEY;
-const url = `https://api.spoonacular.com/recipes/0/information?includeNutrition=true&apiKey=${apiKey}`;
-mockedAxios.get.mockImplementation((ur) => {
-  // extracts recipe id from request url,
-  //which is just the array index for testRecipes
-  const index = ur.charAt(36);
+const baseUrl= `https://api.spoonacular.com/recipes/`;
+mockedAxios.get.mockImplementation((url: string) => {
+  console.log(url);
+  if (url.includes('random')){
+    return Promise.resolve({ status: 200, data: testRecipes });
+  } else if(url.includes('complexSearch')){
 
-  return Promise.resolve({ status: 200, data: testRecipes[index] });
+    return Promise.resolve({ status: 200, data: {results: mockSearchRecipes, number: 10, offset: 0, totalResults: 10} });
+
+  }
+  else {
+    const index = url.charAt(36);
+
+    return Promise.resolve({ status: 200, data: testRecipes[index] });
+  }
 });
 
 beforeAll(async () => {
@@ -71,3 +79,30 @@ test('Check that \\recipe\\"id enpoint responds with necessary data', async () =
     ).toBe(true);
   }
 });
+
+test('Check valid request for Featured Recipes', async () => {
+  const response = await request.get('/v0/featured_recipes')
+  const recipes = response.body;
+  for (let i = 0; i < recipes.length; i++){
+    expect(recipes[i].id).toBe(testRecipes[i].id)
+    expect(recipes[i].title).toBe(testRecipes[i].title)
+    expect(recipes[i].servings).toBe(testRecipes[i].servings)
+    expect(recipes[i].image).toBe(testRecipes[i].image)
+    expect(recipes[i].ingredients).toBe(undefined)
+    expect(recipes[i].nutrients).toBe(undefined)
+  }
+})
+
+test('Check valid request for searching of Recipes', async () => {
+  const response = await request.get('/v0/recipes?search=chicken&offset=0')
+  expect(response.body.remaining).toBe(0)
+  const recipes = response.body.results;
+  for (let i = 0; i < recipes.length; i++){
+    expect(recipes[i].id).toBe(mockSearchRecipes[i].id)
+    expect(recipes[i].title).toBe(mockSearchRecipes[i].title)
+    expect(recipes[i].servings).toBe(mockSearchRecipes[i].servings)
+    expect(recipes[i].image).toBe(mockSearchRecipes[i].image)
+    expect(recipes[i].servings).toBe(undefined)
+    expect(recipes[i].ingredients).toBe(undefined)
+  }
+})
